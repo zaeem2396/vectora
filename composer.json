@@ -1,0 +1,54 @@
+{
+    "name": "vectora/laravel-pinecone",
+    "description": "Laravel-native Pinecone vector search: embeddings, semantic search, and RAG-friendly APIs.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Vectora Contributors"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "ext-json": "*",
+        "illuminate/contracts": "^11.0|^12.0",
+        "illuminate/support": "^11.0|^12.0",
+        "illuminate/database": "^11.0|^12.0",
+        "illuminate/queue": "^11.0|^12.0",
+        "illuminate/console": "^11.0|^12.0",
+        "psr/http-client": "^1.0",
+        "psr/http-factory": "^1.0",
+        "psr/http-message": "^1.1|^2.0",
+        "psr/log": "^3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.0",
+        "guzzlehttp/guzzle": "^7.8",
+        "orchestra/testbench": "^9.0|^10.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Vectora\\Pinecone\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Vectora\\Pinecone\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Vectora\\Pinecone\\Laravel\\PineconeServiceProvider"
+            ],
+            "aliases": {
+                "Pinecone": "Vectora\\Pinecone\\Laravel\\Facades\\Pinecone"
+            }
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
