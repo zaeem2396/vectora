@@ -1,56 +1,116 @@
-# Roadmap — Vectora (Laravel + Pinecone)
+# 🚀 Vectora — Roadmap (Laravel + Pinecone)
 
-## Phase 0 — Foundation ✅ (current)
+## Status Legend
+- 🟢 Done
+- 🟡 In Progress
+- 🔴 Pending
 
-- [x] Architecture doc (`doc/readme.md`)
-- [x] Repository layout (`src/*`, `config/`, `tests/`, `doc/`)
-- [ ] `composer.json`, PHPUnit, Testbench
+---
 
-## Phase 1 — Core (framework-agnostic)
+## Phase 0 — Foundation
 
-- [ ] `VectorStoreContract` + Pinecone REST implementation
-- [ ] DTOs: upsert, query, delete, index describe/create/delete
-- [ ] PSR-18 client + optional Symfony HttpClient
-- [ ] Retries with exponential backoff + configurable max attempts
-- [ ] Rate-limit handling (429 + `Retry-After`)
-- [ ] Structured logging hooks (callbacks / PSR-3 optional)
+| Module | Sub-module / Task | Status |
+|--------|------------------|--------|
+| Foundation | Architecture doc (`doc/readme.md`) | 🟢 Done |
+| Foundation | Repository layout (`src/*`, `config/`, `tests/`, `doc/`) | 🟢 Done |
+| Foundation | `composer.json`, PHPUnit, Testbench | 🔴 Pending |
+| Foundation | CI setup (GitHub Actions) | 🔴 Pending |
+| Foundation | Coding standards (Pint / PHP-CS-Fixer) | 🔴 Pending |
 
-## Phase 2 — Laravel integration
+---
 
-- [ ] `config/pinecone.php` (publishable)
-- [ ] `PineconeServiceProvider`, facade
-- [ ] Queue jobs: single + batch upsert, delete by model
-- [ ] Events: `VectorSynced`, `VectorFailed`
-- [ ] Artisan: `pinecone:sync`, `pinecone:flush`
+## Phase 1 — Core (Framework Agnostic)
+
+| Module | Sub-module / Task | Status |
+|--------|------------------|--------|
+| Core | `VectorStoreContract` + Pinecone REST implementation | 🔴 Pending |
+| Core | DTOs (upsert, query, delete, index ops) | 🔴 Pending |
+| Core | PSR-18 client + optional Symfony HttpClient | 🔴 Pending |
+| Core | Retries with exponential backoff | 🔴 Pending |
+| Core | Rate-limit handling (429 + Retry-After) | 🔴 Pending |
+| Core | Structured logging hooks (PSR-3 optional) | 🔴 Pending |
+| Core | Timeout + circuit breaker support | 🔴 Pending |
+| Core | Configurable index host resolver | 🔴 Pending |
+
+---
+
+## Phase 2 — Laravel Integration
+
+| Module | Sub-module / Task | Status |
+|--------|------------------|--------|
+| Laravel | `config/pinecone.php` (publishable) | 🔴 Pending |
+| Laravel | Service Provider + Facade | 🔴 Pending |
+| Laravel | Queue jobs (single + batch upsert/delete) | 🔴 Pending |
+| Laravel | Events (`VectorSynced`, `VectorFailed`) | 🔴 Pending |
+| Laravel | Artisan commands (`pinecone:sync`, `pinecone:flush`) | 🔴 Pending |
+| Laravel | Auto-discovery support | 🔴 Pending |
+| Laravel | Env-based multi-index config | 🔴 Pending |
+
+---
 
 ## Phase 3 — Embeddings
 
-- [ ] `EmbeddingDriver` interface
-- [ ] OpenAI driver (reference implementation)
-- [ ] Stub / array driver for tests
-- [ ] Documentation: registering custom drivers (Ollama, local, etc.)
+| Module | Sub-module / Task | Status |
+|--------|------------------|--------|
+| Embeddings | `EmbeddingDriver` interface | 🔴 Pending |
+| Embeddings | OpenAI driver (reference implementation) | 🔴 Pending |
+| Embeddings | Stub / array driver (testing) | 🔴 Pending |
+| Embeddings | Custom driver docs (Ollama, local models) | 🔴 Pending |
+| Embeddings | Batch embedding support | 🔴 Pending |
+| Embeddings | Embedding caching (hash-based dedup) | 🔴 Pending |
 
-## Phase 4 — Eloquent
+---
 
-- [ ] `HasEmbeddings` trait: fields, metadata, namespace
-- [ ] Auto-sync on create/update/delete (sync + queued modes)
-- [ ] `Document::semanticSearch($q)->get()` API
-- [ ] Batch indexing API
+## Phase 4 — Eloquent Integration
 
-## Phase 5 — DX & hardening
+| Module | Sub-module / Task | Status |
+|--------|------------------|--------|
+| Eloquent | `HasEmbeddings` trait (fields, metadata, namespace) | 🔴 Pending |
+| Eloquent | Auto-sync on create/update/delete | 🔴 Pending |
+| Eloquent | Sync modes (sync vs queued) | 🔴 Pending |
+| Eloquent | Semantic search API | 🔴 Pending |
+| Eloquent | Batch indexing API | 🔴 Pending |
+| Eloquent | Soft delete handling | 🔴 Pending |
+| Eloquent | Selective field indexing (dirty check) | 🔴 Pending |
 
-- [ ] Optional query-result caching (TTL, cache key strategy)
-- [ ] Full PHPUnit coverage: client (mocked HTTP), sync, search
-- [ ] Root README with examples (RAG, filters, namespaces)
+---
 
-## Future / bonus
+## Phase 5 — DX & Hardening
 
-- [ ] Second backend implementing `VectorStoreContract` (e.g. Qdrant, Weaviate)
-- [ ] Laravel Scout-style “engine” abstraction if overlap grows
-- [ ] Horizon-friendly job batching metrics
+| Module | Sub-module / Task | Status |
+|--------|------------------|--------|
+| DX | Query result caching (TTL strategy) | 🔴 Pending |
+| DX | Full PHPUnit coverage | 🔴 Pending |
+| DX | Root README with examples | 🔴 Pending |
+| DX | Error classification (retryable vs fatal) | 🔴 Pending |
+| DX | Developer debug mode | 🔴 Pending |
+| DX | Config validation (fail fast) | 🔴 Pending |
+
+---
+
+## Phase 6 — Observability
+
+| Module | Sub-module / Task | Status |
+|--------|------------------|--------|
+| Observability | Structured logging hooks | 🔴 Pending |
+| Observability | Metrics (latency, ops count) | 🔴 Pending |
+| Observability | Tracing support (OpenTelemetry-style) | 🔴 Pending |
+
+---
+
+## Future / Bonus
+
+| Module | Sub-module / Task | Status |
+|--------|------------------|--------|
+| Multi-backend | Second backend (Qdrant / Weaviate) | 🔴 Pending |
+| Abstraction | Engine system (Scout-style) | 🔴 Pending |
+| Search | Hybrid search (vector + keyword) | 🔴 Pending |
+| AI | RAG helper utilities | 🔴 Pending |
+| Queue | Horizon metrics support | 🔴 Pending |
 
 ---
 
 ## Versioning
 
-Follow **SemVer**. Breaking changes to contracts or config keys → major bump.
+Follow **SemVer**:
+- Breaking changes to contracts/config → major version bump
