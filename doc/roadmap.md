@@ -22,16 +22,16 @@
 
 ## Phase 1 — Core (Framework Agnostic)
 
-| Module | Sub-module / Task                              | Status         |
-| ------ | ---------------------------------------------- | -------------- |
-| Core   | `VectorStoreContract` + Pinecone implementation | 🟡 In Progress |
-| Core   | DTOs (upsert, query, delete, index ops)        | 🟡 In Progress |
-| Core   | PSR-18 HTTP transport + retries                | 🟡 In Progress |
-| Core   | Exponential backoff + 429 / `Retry-After`      | 🟡 In Progress |
-| Core   | Observability hooks (request/error callbacks)  | 🟡 In Progress |
-| Core   | `IndexAdminContract` (control plane)           | 🟡 In Progress |
-| Core   | Configurable API version + index host          | 🟡 In Progress |
-| Core   | PHPUnit coverage for client + retry            | 🟡 In Progress |
+| Module | Sub-module / Task                              | Status  |
+| ------ | ---------------------------------------------- | ------- |
+| Core   | `VectorStoreContract` + Pinecone implementation | 🟢 Done |
+| Core   | DTOs (upsert, query, delete, index ops)        | 🟢 Done |
+| Core   | PSR-18 HTTP transport + retries                | 🟢 Done |
+| Core   | Exponential backoff + 429 / `Retry-After`      | 🟢 Done |
+| Core   | Observability hooks (request/error callbacks)  | 🟢 Done |
+| Core   | `IndexAdminContract` (control plane)           | 🟢 Done |
+| Core   | Configurable API version + index host          | 🟢 Done |
+| Core   | PHPUnit coverage for client + retry            | 🟢 Done |
 
 ---
 
