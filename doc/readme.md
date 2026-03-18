@@ -79,5 +79,6 @@ doc/
 | Doc | Purpose |
 |-----|---------|
 | [roadmap.md](./roadmap.md) | Phases, improvements, future vector DBs |
+| [ci.md](./ci.md) | GitHub Actions (analysis, format, tests) |
 
 Root **`README.md`** (repository root) will hold install, badges, and copy-paste examples once the API stabilizes.
