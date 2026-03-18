@@ -49,6 +49,18 @@
             }
         }
     },
+    "scripts": {
+        "analyse": "phpstan analyse --memory-limit=512M",
+        "format": "pint",
+        "format:test": "pint --test",
+        "test": "phpunit"
+    },
+    "scripts-descriptions": {
+        "analyse": "Run PHPStan static analysis",
+        "format": "Fix code style with Pint",
+        "format:test": "Verify code style with Pint (no fixes)",
+        "test": "Run PHPUnit"
+    },
     "config": {
         "sort-packages": true
     },
