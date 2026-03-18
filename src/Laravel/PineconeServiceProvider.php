@@ -13,7 +13,7 @@ class PineconeServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../../config/pinecone.php', 'pinecone');
+        $this->mergeConfigFrom(__DIR__.'/../../config/pinecone.php', 'pinecone');
 
         $this->app->singleton('vectora.pinecone', function ($app) {
             return new PineconeManager($app['config']->get('pinecone', []));
@@ -24,7 +24,7 @@ class PineconeServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../../config/pinecone.php' => config_path('pinecone.php'),
+                __DIR__.'/../../config/pinecone.php' => config_path('pinecone.php'),
             ], 'pinecone-config');
         }
     }

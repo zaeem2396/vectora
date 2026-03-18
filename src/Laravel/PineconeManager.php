@@ -16,6 +16,5 @@ class PineconeManager
      */
     public function __construct(
         protected array $config = [],
-    ) {
-    }
+    ) {}
 }
