@@ -82,5 +82,6 @@ doc/
 | [ci.md](./ci.md) | GitHub Actions (analysis, format, tests) |
 | [core.md](./core.md) | Phase 1: PSR-18 core client usage |
 | [laravel.md](./laravel.md) | Phase 2: service provider, jobs, commands |
+| [embeddings.md](./embeddings.md) | Phase 3: EmbeddingDriver, OpenAI, cache |
 
 Root **`README.md`** (repository root) will hold install, badges, and copy-paste examples once the API stabilizes.
