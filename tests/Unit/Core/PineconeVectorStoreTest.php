@@ -96,7 +96,7 @@ final class PineconeVectorStoreTest extends TestCase
         $this->assertSame('explicit', $body['namespace']);
     }
 
-    public function test_describe_index_stats_applies_default_namespace(): void
+    public function test_describe_index_stats_does_not_apply_store_default_namespace(): void
     {
         $http = new MockHttpClient;
         $http->responses[] = new Response(200, [], json_encode([
@@ -108,7 +108,21 @@ final class PineconeVectorStoreTest extends TestCase
 
         $store->describeIndexStats();
 
+        $raw = (string) $http->requests[0]->getBody();
+        $this->assertSame('{}', $raw);
+    }
+
+    public function test_explicit_empty_namespace_skips_connection_default_for_upsert(): void
+    {
+        $http = new MockHttpClient;
+        $http->responses[] = new Response(200, [], '{"upsertedCount":1}');
+        $store = PineconeTestFactories::vectorStore($http, 'https://idx.test.pinecone.io', 'from-config');
+
+        $store->upsert(new UpsertVectorsRequest([
+            new VectorRecord('id1', [0.5, 0.5]),
+        ], ''));
+
         $body = json_decode((string) $http->requests[0]->getBody(), true);
-        $this->assertSame(['namespace' => 'stats-ns'], $body['filter']);
+        $this->assertArrayNotHasKey('namespace', $body);
     }
 }

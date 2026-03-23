@@ -74,7 +74,8 @@ final class PineconeVectorStore implements VectorStoreContract
 
     public function describeIndexStats(?string $namespace = null): DescribeIndexStatsResult
     {
-        $namespace = $this->effectiveNamespace($namespace);
+        // Do not apply connection default namespace: Pinecone treats `filter` as metadata filter;
+        // serverless indexes often reject filtered stats, and defaults would break sync/health jobs.
         $body = [];
         if ($namespace !== null && $namespace !== '') {
             $body['filter'] = ['namespace' => $namespace];
@@ -130,21 +131,22 @@ final class PineconeVectorStore implements VectorStoreContract
         return new DescribeIndexStatsResult($dim, $total, $namespaces, $metric);
     }
 
-    private function effectiveNamespace(?string $explicit): ?string
+    /**
+     * For upsert/query/delete only. `null` means “unspecified” → apply connection default.
+     * Any non-null value (including '') is caller intent: '' targets Pinecone’s default namespace (omit JSON key).
+     */
+    private function resolveNamespaceForMutatingOperations(?string $explicit): ?string
     {
-        if ($explicit !== null && $explicit !== '') {
+        if ($explicit !== null) {
             return $explicit;
         }
-        if ($this->defaultNamespace !== null) {
-            return $this->defaultNamespace;
-        }
 
-        return null;
+        return $this->defaultNamespace;
     }
 
     private function withDefaultNamespaceForUpsert(UpsertVectorsRequest $request): UpsertVectorsRequest
     {
-        $ns = $this->effectiveNamespace($request->namespace);
+        $ns = $this->resolveNamespaceForMutatingOperations($request->namespace);
         if ($ns === $request->namespace) {
             return $request;
         }
@@ -154,7 +156,7 @@ final class PineconeVectorStore implements VectorStoreContract
 
     private function withDefaultNamespaceForQuery(QueryVectorsRequest $request): QueryVectorsRequest
     {
-        $ns = $this->effectiveNamespace($request->namespace);
+        $ns = $this->resolveNamespaceForMutatingOperations($request->namespace);
         if ($ns === $request->namespace) {
             return $request;
         }
@@ -172,7 +174,7 @@ final class PineconeVectorStore implements VectorStoreContract
 
     private function withDefaultNamespaceForDelete(DeleteVectorsRequest $request): DeleteVectorsRequest
     {
-        $ns = $this->effectiveNamespace($request->namespace);
+        $ns = $this->resolveNamespaceForMutatingOperations($request->namespace);
         if ($ns === $request->namespace) {
             return $request;
         }
