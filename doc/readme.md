@@ -81,5 +81,6 @@ doc/
 | [roadmap.md](./roadmap.md) | Phases, improvements, future vector DBs |
 | [ci.md](./ci.md) | GitHub Actions (analysis, format, tests) |
 | [core.md](./core.md) | Phase 1: PSR-18 core client usage |
+| [laravel.md](./laravel.md) | Phase 2: service provider, jobs, commands |
 
 Root **`README.md`** (repository root) will hold install, badges, and copy-paste examples once the API stabilizes.

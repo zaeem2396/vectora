@@ -36,9 +36,12 @@ final class PineconeTestFactories
         );
     }
 
-    public static function vectorStore(MockHttpClient $client, string $host = 'https://idx.test.pinecone.io'): PineconeVectorStore
-    {
-        return new PineconeVectorStore(self::transport($client), $host);
+    public static function vectorStore(
+        MockHttpClient $client,
+        string $host = 'https://idx.test.pinecone.io',
+        ?string $defaultNamespace = null,
+    ): PineconeVectorStore {
+        return new PineconeVectorStore(self::transport($client), $host, $defaultNamespace);
     }
 
     public static function indexAdmin(MockHttpClient $client, string $control = 'https://api.pinecone.io'): PineconeIndexAdmin

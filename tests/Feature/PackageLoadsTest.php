@@ -18,6 +18,9 @@ final class PackageLoadsTest extends TestCase
     {
         $this->assertIsArray(config('pinecone'));
         $this->assertArrayHasKey('api_key', config('pinecone'));
+        $this->assertArrayHasKey('api_version', config('pinecone'));
+        $this->assertArrayHasKey('indexes', config('pinecone'));
+        $this->assertArrayHasKey('queue', config('pinecone'));
     }
 
     public function test_vectora_pinecone_is_bound(): void

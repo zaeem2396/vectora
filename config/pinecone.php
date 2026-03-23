@@ -12,27 +12,86 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Index host (e.g. https://xxx.svc.region.pinecone.io)
+    | Data-plane API version (X-Pinecone-Api-Version)
     |--------------------------------------------------------------------------
     */
-    'host' => env('PINECONE_HOST', ''),
+    'api_version' => env('PINECONE_API_VERSION', '2025-10'),
 
     /*
     |--------------------------------------------------------------------------
-    | Default namespace
+    | Control plane (index create / describe / delete)
     |--------------------------------------------------------------------------
     */
+    'control_plane' => [
+        'url' => env('PINECONE_CONTROL_PLANE_URL', 'https://api.pinecone.io'),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Default logical index name (see indexes)
+    |--------------------------------------------------------------------------
+    */
+    'default' => env('PINECONE_INDEX', 'default'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Named index connections (host + optional default namespace)
+    |--------------------------------------------------------------------------
+    |
+    | If empty, legacy `host` / `namespace` below are mapped to the connection
+    | named by `default` (PINECONE_INDEX), not always the string "default".
+    |
+    */
+    'indexes' => [
+        'default' => [
+            'host' => env('PINECONE_HOST', ''),
+            'namespace' => env('PINECONE_NAMESPACE', ''),
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Legacy single-index host/namespace (used when indexes is empty)
+    |--------------------------------------------------------------------------
+    */
+    'host' => env('PINECONE_HOST', ''),
     'namespace' => env('PINECONE_NAMESPACE', ''),
 
     /*
     |--------------------------------------------------------------------------
-    | HTTP / resilience (wired in Core layer)
+    | HTTP / resilience (Core PineconeHttpTransport)
     |--------------------------------------------------------------------------
     */
     'http' => [
-        'timeout' => (int) env('PINECONE_HTTP_TIMEOUT', 30),
-        'connect_timeout' => (int) env('PINECONE_CONNECT_TIMEOUT', 10),
-        'retries' => (int) env('PINECONE_HTTP_RETRIES', 3),
-        'retry_delay_ms' => (int) env('PINECONE_RETRY_DELAY_MS', 500),
+        'timeout' => (float) env('PINECONE_HTTP_TIMEOUT', 30),
+        'connect_timeout' => (float) env('PINECONE_CONNECT_TIMEOUT', 10),
+        'retries' => (int) env('PINECONE_HTTP_RETRIES', 4),
+        'retry_delay_ms' => (int) env('PINECONE_RETRY_DELAY_MS', 250),
+        'max_delay_ms' => (int) env('PINECONE_MAX_DELAY_MS', 10_000),
+        'respect_retry_after' => filter_var(env('PINECONE_RESPECT_RETRY_AFTER', true), FILTER_VALIDATE_BOOL),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Queue defaults for vector jobs
+    |--------------------------------------------------------------------------
+    |
+    | Omit PINECONE_QUEUE (or leave null) so jobs use the selected connection’s
+    | default queue name instead of forcing Laravel’s global "default" queue.
+    |
+    */
+    'queue' => [
+        'connection' => env('PINECONE_QUEUE_CONNECTION'),
+        'queue' => env('PINECONE_QUEUE'),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Optional request logging (ObservabilityHooks → Laravel Log)
+    |--------------------------------------------------------------------------
+    */
+    'logging' => [
+        'enabled' => filter_var(env('PINECONE_LOG_REQUESTS', false), FILTER_VALIDATE_BOOL),
+        'channel' => env('PINECONE_LOG_CHANNEL'),
     ],
 ];
