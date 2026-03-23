@@ -20,5 +20,6 @@ interface VectorStoreContract
 
     public function delete(DeleteVectorsRequest $request): void;
 
-    public function describeIndexStats(?string $namespace = null): DescribeIndexStatsResult;
+    /** Unfiltered index-wide stats only (Pinecone serverless does not support filtered describe_index_stats). */
+    public function describeIndexStats(): DescribeIndexStatsResult;
 }

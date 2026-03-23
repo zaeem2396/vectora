@@ -40,7 +40,7 @@ final class DescribeIndexStatsJobHandlesTest extends PineconeFeatureTestCase
             $f->setTransport($transport);
         });
 
-        $job = new DescribeIndexStatsJob(null, null);
+        $job = new DescribeIndexStatsJob(null);
         $job->handle($this->app->make(PineconeClientFactory::class));
 
         Event::assertDispatched(VectorSynced::class, function (VectorSynced $e): bool {

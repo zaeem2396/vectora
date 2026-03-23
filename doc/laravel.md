@@ -14,9 +14,9 @@ php artisan vendor:publish --tag=pinecone-config
 
 `config/pinecone.php` supports named connections under `indexes`, with `default` selecting which name `Pinecone::connection()` uses when no argument is passed.
 
-Legacy single-host apps can keep using top-level `host` / `namespace`; they are mapped to the `default` index when `indexes` is empty.
+Legacy single-host apps can keep using top-level `host` / `namespace`; when `indexes` is empty they are mapped to the connection named by `default` (`PINECONE_INDEX`), not hard-coded to the string `default`.
 
-Each index’s `namespace` value is passed into `PineconeVectorStore` as the **default namespace** for **upsert / query / delete**: when the request or job passes `namespace: null`, that default is used. Pass an **empty string** `''` to target Pinecone’s default namespace (no `namespace` in the API payload) instead of the connection default. **`describeIndexStats` and `pinecone:sync` do not apply this default** (avoid metadata-style `filter` and serverless limitations); pass a namespace argument only when you intentionally want a filtered stats call.
+Each index’s `namespace` value is passed into `PineconeVectorStore` as the **default namespace** for **upsert / query / delete**: when the request or job passes `namespace: null`, that default is used. Pass an **empty string** `''` to target Pinecone’s default namespace (no `namespace` in the API payload) instead of the connection default. **`describeIndexStats()`**, **`pinecone:sync`**, and **`DescribeIndexStatsJob`** only request **unfiltered** index stats (Pinecone’s stats `filter` is metadata-oriented; serverless indexes reject filtered stats). Use the `namespaces` breakdown in the response for per-namespace counts.
 
 ## Queue
 

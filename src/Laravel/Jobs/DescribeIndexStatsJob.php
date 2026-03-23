@@ -24,7 +24,6 @@ final class DescribeIndexStatsJob implements ShouldQueue
     use SerializesModels;
 
     public function __construct(
-        public ?string $namespace = null,
         public ?string $index = null,
     ) {
         $q = config('pinecone.queue', []);
@@ -39,18 +38,16 @@ final class DescribeIndexStatsJob implements ShouldQueue
     public function handle(PineconeClientFactory $factory): void
     {
         try {
-            $stats = $factory->vectorStore($this->index)->describeIndexStats($this->namespace);
+            $stats = $factory->vectorStore($this->index)->describeIndexStats();
 
             Event::dispatch(new VectorSynced('describe_index_stats', [
                 'index' => $this->index,
-                'namespace' => $this->namespace,
                 'totalVectorCount' => $stats->totalVectorCount,
                 'dimension' => $stats->dimension,
             ]));
         } catch (Throwable $e) {
             Event::dispatch(new VectorFailed('describe_index_stats', $e->getMessage(), [
                 'index' => $this->index,
-                'namespace' => $this->namespace,
             ]));
 
             throw $e;

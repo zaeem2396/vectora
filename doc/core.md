@@ -27,7 +27,7 @@ $store = new PineconeVectorStore($transport, getenv('PINECONE_HOST'), 'optional-
 $admin = new PineconeIndexAdmin($transport);
 ```
 
-Optional **default namespace** (third constructor argument): when upsert/query/delete omit `namespace` (`null`), the store applies this value. A non-null `namespace` of `''` means “Pinecone default namespace” (no `namespace` field in the JSON) and is **not** replaced by the connection default. **`describeIndexStats` never uses this default** (only the argument you pass; use `null` for unfiltered index-wide stats).
+Optional **default namespace** (third constructor argument): when upsert/query/delete omit `namespace` (`null`), the store applies this value. A non-null `namespace` of `''` means “Pinecone default namespace” (no `namespace` field in the JSON) and is **not** replaced by the connection default. **`describeIndexStats()`** is always unfiltered index-wide stats (Pinecone does not support reliable namespace-only totals via this API on serverless).
 
 - **Data plane** (upsert/query/delete/stats): index host from the Pinecone console.
 - **Control plane** (create/describe/delete index): defaults to `https://api.pinecone.io`.

@@ -10,21 +10,15 @@ use Vectora\Pinecone\Laravel\PineconeClientFactory;
 final class PineconeSyncCommand extends Command
 {
     protected $signature = 'pinecone:sync
-                            {--index= : Logical index name}
-                            {--namespace= : Optional namespace filter for stats}';
+                            {--index= : Logical index name}';
 
     protected $description = 'Describe index stats (connectivity / counts) for the configured index';
 
     public function handle(PineconeClientFactory $factory): int
     {
         $index = $this->option('index') ? (string) $this->option('index') : null;
-        $ns = $this->option('namespace');
-        $namespace = $ns !== null && $ns !== false ? (string) $ns : null;
-        if ($namespace === '') {
-            $namespace = null;
-        }
 
-        $stats = $factory->vectorStore($index)->describeIndexStats($namespace);
+        $stats = $factory->vectorStore($index)->describeIndexStats();
 
         $this->table(
             ['Metric', 'Value'],

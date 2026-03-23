@@ -72,18 +72,13 @@ final class PineconeVectorStore implements VectorStoreContract
         );
     }
 
-    public function describeIndexStats(?string $namespace = null): DescribeIndexStatsResult
+    public function describeIndexStats(): DescribeIndexStatsResult
     {
-        // Do not apply connection default namespace: Pinecone treats `filter` as metadata filter;
-        // serverless indexes often reject filtered stats, and defaults would break sync/health jobs.
-        $body = [];
-        if ($namespace !== null && $namespace !== '') {
-            $body['filter'] = ['namespace' => $namespace];
-        }
+        // Unfiltered only: Pinecone's `filter` is for metadata, not namespace totals; serverless rejects filtered stats.
         $response = $this->transport->postJson(
             $this->dataBaseUrl,
             '/describe_index_stats',
-            $body
+            []
         );
 
         return $this->parseStatsResponse($response);
