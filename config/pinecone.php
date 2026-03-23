@@ -94,4 +94,34 @@ return [
         'enabled' => filter_var(env('PINECONE_LOG_REQUESTS', false), FILTER_VALIDATE_BOOL),
         'channel' => env('PINECONE_LOG_CHANNEL'),
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Embeddings (text → vector)
+    |--------------------------------------------------------------------------
+    |
+    | Drivers: `deterministic` (hash-based, no API), `openai` (OpenAI embeddings).
+    | When `cache.enabled` is true, results are keyed by SHA-256 of input text.
+    |
+    */
+    'embeddings' => [
+        'default' => env('PINECONE_EMBEDDING_DRIVER', 'deterministic'),
+        'cache' => [
+            'enabled' => filter_var(env('PINECONE_EMBEDDING_CACHE', false), FILTER_VALIDATE_BOOL),
+            'store' => env('PINECONE_EMBEDDING_CACHE_STORE'),
+            'prefix' => env('PINECONE_EMBEDDING_CACHE_PREFIX', 'vectora.embeddings'),
+            'ttl' => env('PINECONE_EMBEDDING_CACHE_TTL'),
+        ],
+        'drivers' => [
+            'deterministic' => [
+                'dimensions' => (int) env('PINECONE_EMBEDDING_DETERMINISTIC_DIMENSIONS', 8),
+            ],
+            'openai' => [
+                'api_key' => env('OPENAI_API_KEY', env('PINECONE_OPENAI_API_KEY', '')),
+                'model' => env('OPENAI_EMBEDDING_MODEL', 'text-embedding-3-small'),
+                'base_url' => env('OPENAI_BASE_URL', 'https://api.openai.com/v1'),
+                'batch_size' => (int) env('PINECONE_OPENAI_EMBEDDING_BATCH', 100),
+            ],
+        ],
+    ],
 ];
