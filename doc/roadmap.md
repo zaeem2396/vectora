@@ -37,15 +37,17 @@
 
 ## Phase 2 — Laravel Integration
 
-| Module  | Sub-module / Task                         | Status         |
-| ------- | ----------------------------------------- | -------------- |
-| Laravel | `config/pinecone.php` (publishable)       | 🟡 In Progress |
-| Laravel | Service Provider + Facade                 | 🟡 In Progress |
-| Laravel | Queue jobs (single + batch upsert/delete) | 🟡 In Progress |
-| Laravel | Events (`VectorSynced`, `VectorFailed`)   | 🟡 In Progress |
-| Laravel | Artisan commands (`pinecone:sync`, …)     | 🟡 In Progress |
-| Laravel | Auto-discovery support                    | 🟡 In Progress |
-| Laravel | Env-based multi-index config              | 🟡 In Progress |
+Status: **complete** (see `doc/laravel.md`).
+
+| Module  | Sub-module / Task                         | Status  |
+| ------- | ----------------------------------------- | ------- |
+| Laravel | `config/pinecone.php` (publishable)       | 🟢 Done |
+| Laravel | Service Provider + Facade                 | 🟢 Done |
+| Laravel | Queue jobs (single + batch upsert/delete) | 🟢 Done |
+| Laravel | Events (`VectorSynced`, `VectorFailed`)   | 🟢 Done |
+| Laravel | Artisan commands (`pinecone:sync`, …)     | 🟢 Done |
+| Laravel | Auto-discovery support                    | 🟢 Done |
+| Laravel | Env-based multi-index config              | 🟢 Done |
 
 ---
 
