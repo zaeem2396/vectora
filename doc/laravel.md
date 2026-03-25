@@ -35,12 +35,17 @@ The Laravel integration uses **Guzzle** as the PSR-18 client (`guzzlehttp/guzzle
 
 See **[embeddings.md](./embeddings.md)** for drivers, OpenAI env vars, and optional result caching.
 
+## Eloquent
+
+Phase 4: **`HasEmbeddings`** on models implementing **`Embeddable`**, with **`SyncModelEmbeddingJob`** for queued upserts. See **[eloquent.md](./eloquent.md)**.
+
 ## Queue jobs
 
 | Job | Purpose |
 | --- | --- |
 | `UpsertVectorsJob` | Async upsert with array payloads |
 | `DeleteVectorsJob` | Async delete by ids, filter, or `deleteAll` |
+| `SyncModelEmbeddingJob` | Queued upsert for `HasEmbeddings` models |
 | `DescribeIndexStatsJob` | Async stats / health |
 
 Jobs honour `pinecone.queue.connection` and `pinecone.queue.queue`. Successful operations dispatch `VectorSynced`; failures dispatch `VectorFailed` before rethrowing.
