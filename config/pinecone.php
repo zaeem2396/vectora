@@ -124,4 +124,18 @@ return [
             ],
         ],
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Eloquent (HasEmbeddings)
+    |--------------------------------------------------------------------------
+    |
+    | `default_sync`: `sync` upserts inline on model events; `queued` dispatches
+    | SyncModelEmbeddingJob / DeleteVectorsJob. Override per model via
+    | Embeddable::vectorEmbeddingSyncMode().
+    |
+    */
+    'eloquent' => [
+        'default_sync' => env('PINECONE_ELOQUENT_SYNC', 'queued'),
+    ],
 ];
