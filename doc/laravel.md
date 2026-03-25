@@ -1,5 +1,7 @@
 # Laravel integration (Phase 2)
 
+First-time setup: **[installation.md](./installation.md)** (Composer, `.env`, publish config).
+
 ## Service provider & discovery
 
 The package registers `PineconeServiceProvider` and the `Pinecone` facade via `composer.json` `extra.laravel` (auto-discovery).

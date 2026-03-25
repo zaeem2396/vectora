@@ -1,6 +1,8 @@
 # Vectora — Laravel Pinecone Integration
 
-Production-grade, Laravel-first vector search built on Pinecone’s REST API (no official PHP SDK).
+**Vectora** is a **community-maintained PHP/Laravel SDK** for Pinecone’s **REST APIs**: vector upsert/query/delete, control-plane helpers, embeddings, and Eloquent-oriented workflows. Pinecone does not ship an **official PHP client**; this project exists so PHP teams have a credible, documented path to production—and so the work can be **shared with Pinecone** and the wider ecosystem as a **reference integration** (not an official Pinecone product unless Pinecone chooses to adopt or endorse it separately).
+
+**New here?** Start with **[installation.md](./installation.md)** and the repository **[README.md](../README.md)** for Composer setup, `.env` keys, and verification.
 
 ---
 
@@ -78,11 +80,11 @@ doc/
 
 | Doc | Purpose |
 |-----|---------|
+| [installation.md](./installation.md) | Composer, publish config, `.env`, queues, troubleshooting |
+| [readme.md](../README.md) | Repository overview and short install (GitHub landing) |
 | [roadmap.md](./roadmap.md) | Phases, improvements, future vector DBs |
 | [ci.md](./ci.md) | GitHub Actions (analysis, format, tests) |
 | [core.md](./core.md) | Phase 1: PSR-18 core client usage |
 | [laravel.md](./laravel.md) | Phase 2: service provider, jobs, commands |
 | [embeddings.md](./embeddings.md) | Phase 3: EmbeddingDriver, OpenAI, cache |
 | [eloquent.md](./eloquent.md) | Phase 4: HasEmbeddings, semantic search, batch |
-
-Root **`README.md`** (repository root) will hold install, badges, and copy-paste examples once the API stabilizes.

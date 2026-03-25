@@ -1,6 +1,6 @@
 {
     "name": "vectora/laravel-pinecone",
-    "description": "Laravel-native Pinecone vector search: embeddings, semantic search, and RAG-friendly APIs.",
+    "description": "Community PHP/Laravel SDK for Pinecone REST APIs: embeddings, vector ops, Eloquent sync, and queue jobs.",
     "type": "library",
     "license": "MIT",
     "authors": [
