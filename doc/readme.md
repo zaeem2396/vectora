@@ -83,5 +83,6 @@ doc/
 | [core.md](./core.md) | Phase 1: PSR-18 core client usage |
 | [laravel.md](./laravel.md) | Phase 2: service provider, jobs, commands |
 | [embeddings.md](./embeddings.md) | Phase 3: EmbeddingDriver, OpenAI, cache |
+| [eloquent.md](./eloquent.md) | Phase 4: HasEmbeddings, semantic search, batch |
 
 Root **`README.md`** (repository root) will hold install, badges, and copy-paste examples once the API stabilizes.
