@@ -68,15 +68,17 @@ Status: **complete** (see `doc/embeddings.md`).
 
 ## Phase 4 — Eloquent Integration
 
+Status: **complete** (see `doc/eloquent.md`).
+
 | Module   | Sub-module / Task                    | Status  |
 | -------- | ------------------------------------ | ------- |
-| Eloquent | `HasEmbeddings` trait                | 🔴 Pending |
-| Eloquent | Auto-sync on create/update/delete    | 🔴 Pending |
-| Eloquent | Sync modes (sync vs queued)          | 🔴 Pending |
-| Eloquent | Semantic search API                  | 🔴 Pending |
-| Eloquent | Batch indexing API                   | 🔴 Pending |
-| Eloquent | Soft delete handling                 | 🔴 Pending |
-| Eloquent | Selective field indexing             | 🔴 Pending |
+| Eloquent | `HasEmbeddings` trait                | 🟢 Done |
+| Eloquent | Auto-sync on create/update/delete    | 🟢 Done |
+| Eloquent | Sync modes (sync vs queued)          | 🟢 Done |
+| Eloquent | Semantic search API                  | 🟢 Done |
+| Eloquent | Batch indexing API                   | 🟢 Done |
+| Eloquent | Soft delete handling                 | 🟢 Done |
+| Eloquent | Selective field indexing             | 🟢 Done |
 
 ---
 
