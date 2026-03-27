@@ -21,4 +21,29 @@ class ApiException extends PineconeException
     {
         return $this->statusCode === 429;
     }
+
+    public function category(): ApiErrorCategory
+    {
+        return ApiErrorCategory::fromStatusCode($this->statusCode);
+    }
+
+    public function isAuthenticationError(): bool
+    {
+        return $this->statusCode === 401 || $this->statusCode === 403;
+    }
+
+    public function isNotFound(): bool
+    {
+        return $this->statusCode === 404;
+    }
+
+    public function isClientError(): bool
+    {
+        return $this->statusCode >= 400 && $this->statusCode <= 499;
+    }
+
+    public function isServerError(): bool
+    {
+        return $this->statusCode >= 500 && $this->statusCode <= 599;
+    }
 }
