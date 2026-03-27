@@ -63,4 +63,4 @@ Jobs honour `pinecone.queue.connection` and `pinecone.queue.queue`. Successful o
 
 `PineconeClientFactory` builds a shared `PineconeHttpTransport` (Guzzle PSR-18 client) using `pinecone.http.*`. Set `PINECONE_LOG_REQUESTS=true` to emit debug lines via Laravel’s logger (optional channel via `PINECONE_LOG_CHANNEL`).
 
-**Debug:** `PINECONE_DEBUG=true` adds truncated request/response body previews (`pinecone.debug.*`).
+**Debug:** `PINECONE_DEBUG=true` adds truncated request/response body previews (`pinecone.debug.*`). **Query cache:** `PINECONE_QUERY_CACHE=true` wraps the vector store so `query()` hits Laravel cache (see **`[dx.md](./dx.md)`**). Config is validated on provider boot (timeouts, eloquent sync mode, query-cache TTL).
