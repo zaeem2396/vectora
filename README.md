@@ -54,17 +54,5 @@ php artisan queue:work
 | **[doc/embeddings.md](doc/embeddings.md)** | Embedding drivers, OpenAI, caching |
 | **[doc/eloquent.md](doc/eloquent.md)** | `HasEmbeddings`, semantic search, batch reindex |
 | **[doc/core.md](doc/core.md)** | Framework-agnostic HTTP client usage |
+| **[doc/dx.md](doc/dx.md)** | Query cache, debug HTTP logging, config validation, `ApiException` categories |
 | **[doc/roadmap.md](doc/roadmap.md)** | Phases and future work |
-
-## Development (this repository)
-
-```bash
-composer install
-composer test
-composer run format:test
-composer analyse
-```
-
-## License
-
-MIT (see `composer.json`).
