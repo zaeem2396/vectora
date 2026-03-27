@@ -83,3 +83,15 @@ if ($e->isAuthenticationError()) {
 }
 ```
 
+## Development (this repository)
+
+```bash
+composer install
+composer test
+composer run format:test
+composer analyse
+```
+
+## License
+
+MIT (see `composer.json`).
