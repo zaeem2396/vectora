@@ -31,3 +31,11 @@ final class ApiErrorCategoryTest extends TestCase
     {
         $this->assertSame($expected, ApiErrorCategory::fromStatusCode($code));
     }
+
+    public function test_unknown_codes_grouped_as_unknown(): void
+    {
+        $this->assertSame(ApiErrorCategory::Unknown, ApiErrorCategory::fromStatusCode(0));
+        $this->assertSame(ApiErrorCategory::Unknown, ApiErrorCategory::fromStatusCode(200));
+        $this->assertSame(ApiErrorCategory::Unknown, ApiErrorCategory::fromStatusCode(600));
+    }
+}
