@@ -88,12 +88,12 @@ Status: **complete** (see `doc/dx.md`).
 
 | Module | Sub-module / Task              | Status  |
 | ------ | ------------------------------ | ------- |
-| DX     | Query result caching           | 🔴 Pending |
-| DX     | Full PHPUnit coverage          | 🔴 Pending |
-| DX     | Root README with examples      | 🔴 Pending |
-| DX     | Error classification           | 🔴 Pending |
-| DX     | Developer debug mode           | 🔴 Pending |
-| DX     | Config validation              | 🔴 Pending |
+| DX     | Query result caching           | 🟢 Done |
+| DX     | Full PHPUnit coverage          | 🟢 Done |
+| DX     | Root README with examples      | 🟢 Done |
+| DX     | Error classification           | 🟢 Done |
+| DX     | Developer debug mode           | 🟢 Done |
+| DX     | Config validation              | 🟢 Done |
 
 ---
 
