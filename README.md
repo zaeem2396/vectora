@@ -66,3 +66,10 @@ PINECONE_QUERY_CACHE=true
 PINECONE_QUERY_CACHE_TTL=300
 ```
 
+**Debug HTTP payloads** (truncated; use only in non-production):
+
+```env
+PINECONE_DEBUG=true
+PINECONE_LOG_REQUESTS=true
+```
+
