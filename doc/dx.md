@@ -42,3 +42,14 @@ On **`PineconeServiceProvider::boot()`**, **`PineconeConfigValidator`** checks:
 - When query cache is enabled, `ttl` is not negative
 
 Invalid configuration throws **`InvalidArgumentException`** early so misconfiguration fails fast.
+
+---
+
+## Error classification
+
+**`ApiException`** (thrown after retries on HTTP failures) exposes:
+
+- **`category(): ApiErrorCategory`** — `rate_limited`, `authentication`, `not_found`, `bad_request`, `client`, `server`, or `unknown`
+- **`isAuthenticationError()`**, **`isNotFound()`**, **`isClientError()`**, **`isServerError()`**, plus existing **`isRateLimited()`**
+
+Use these in listeners or `VectorFailed` handlers to branch on failure type without parsing raw status codes everywhere.
