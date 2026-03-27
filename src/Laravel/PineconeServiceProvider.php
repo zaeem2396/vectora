@@ -12,6 +12,7 @@ use Vectora\Pinecone\Laravel\Commands\PineconeFlushCommand;
 use Vectora\Pinecone\Laravel\Commands\PineconeSyncCommand;
 use Vectora\Pinecone\Laravel\Embeddings\EmbeddingDriverFactory;
 use Vectora\Pinecone\Laravel\Embeddings\EmbeddingManager;
+use Vectora\Pinecone\Laravel\Support\PineconeConfigValidator;
 
 class PineconeServiceProvider extends ServiceProvider
 {
@@ -50,6 +51,10 @@ class PineconeServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        /** @var array<string, mixed> $pinecone */
+        $pinecone = $this->app['config']->get('pinecone', []);
+        PineconeConfigValidator::validate($pinecone);
+
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__.'/../../config/pinecone.php' => config_path('pinecone.php'),
