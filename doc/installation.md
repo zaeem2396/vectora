@@ -84,3 +84,6 @@ Common optional keys (see published `config/pinecone.php` for the full list):
 | `PINECONE_ELOQUENT_SYNC` | `sync` or `queued` for `HasEmbeddings` models |
 | `PINECONE_EMBEDDING_DRIVER` | `deterministic` (dev) or `openai` |
 | `OPENAI_API_KEY` | For OpenAI embeddings when using the `openai` driver |
+| `PINECONE_QUERY_CACHE` | Cache `query()` results via Laravel cache (see **[dx.md](./dx.md)**) |
+| `PINECONE_DEBUG` | Verbose truncated HTTP body logging (development only) |
+
