@@ -64,7 +64,7 @@ class PineconeClientFactory
             respectRetryAfter: (bool) ($http['respect_retry_after'] ?? true),
         );
 
-        $hooks = $this->makeHooks($c);
+        $hooks = $this->composeHooks($c);
 
         $factory = new HttpFactory;
         $this->transport = new PineconeHttpTransport(
@@ -83,7 +83,12 @@ class PineconeClientFactory
     /**
      * @param  array<string, mixed>  $c
      */
-    private function makeHooks(array $c): ?ObservabilityHooks
+    private function composeHooks(array $c): ?ObservabilityHooks
+    {
+        return $this->makeLoggingHooks($c);
+    }
+
+    private function makeLoggingHooks(array $c): ?ObservabilityHooks
     {
         $log = $c['logging'] ?? [];
         if (! (bool) ($log['enabled'] ?? false)) {
