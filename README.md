@@ -59,3 +59,10 @@ php artisan queue:work
 
 ### Examples (Phase 5 — DX)
 
+**Cache vector queries** (same query body hits Laravel cache until TTL or flush):
+
+```env
+PINECONE_QUERY_CACHE=true
+PINECONE_QUERY_CACHE_TTL=300
+```
+
