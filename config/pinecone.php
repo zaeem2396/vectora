@@ -111,7 +111,36 @@ return [
     ],
 
     /*
-DDING_CACHE_PREFIX', 'vectora.embeddings'),
+    |--------------------------------------------------------------------------
+    | Query result cache (Laravel Cache for VectorStoreContract::query)
+    |--------------------------------------------------------------------------
+    |
+    | Caches query responses by hashed request body + index fingerprint.
+    | Invalidate by TTL or `php artisan cache:clear` / store flush.
+    |
+    */
+    'query_cache' => [
+        'enabled' => filter_var(env('PINECONE_QUERY_CACHE', false), FILTER_VALIDATE_BOOL),
+        'store' => env('PINECONE_QUERY_CACHE_STORE'),
+        'prefix' => env('PINECONE_QUERY_CACHE_PREFIX', 'vectora.pinecone.query'),
+        'ttl' => env('PINECONE_QUERY_CACHE_TTL'),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Embeddings (text → vector)
+    |--------------------------------------------------------------------------
+    |
+    | Drivers: `deterministic` (hash-based, no API), `openai` (OpenAI embeddings).
+    | When `cache.enabled` is true, results are keyed by SHA-256 of input text.
+    |
+    */
+    'embeddings' => [
+        'default' => env('PINECONE_EMBEDDING_DRIVER', 'deterministic'),
+        'cache' => [
+            'enabled' => filter_var(env('PINECONE_EMBEDDING_CACHE', false), FILTER_VALIDATE_BOOL),
+            'store' => env('PINECONE_EMBEDDING_CACHE_STORE'),
+            'prefix' => env('PINECONE_EMBEDDING_CACHE_PREFIX', 'vectora.embeddings'),
             'ttl' => env('PINECONE_EMBEDDING_CACHE_TTL'),
         ],
         'drivers' => [
