@@ -57,3 +57,39 @@ final class CachingVectorStoreTest extends TestCase
         $this->assertSame(1, $inner->queryCalls);
         $this->assertSame($r1->matches[0]->id, $r2->matches[0]->id);
     }
+
+    public function test_different_requests_miss_cache(): void
+    {
+        $inner = new class implements VectorStoreContract
+        {
+            public int $queryCalls = 0;
+
+            public function upsert(UpsertVectorsRequest $request): UpsertResult
+            {
+                throw new \RuntimeException('not used');
+            }
+
+            public function query(QueryVectorsRequest $request): QueryVectorsResult
+            {
+                $this->queryCalls++;
+
+                return new QueryVectorsResult([], null, null);
+            }
+
+            public function delete(DeleteVectorsRequest $request): void {}
+
+            public function describeIndexStats(): DescribeIndexStatsResult
+            {
+                throw new \RuntimeException('not used');
+            }
+        };
+
+        $cache = new Repository(new ArrayStore);
+        $store = new CachingVectorStore($inner, $cache, 'pfx', 3600, 'fp');
+
+        $store->query(new QueryVectorsRequest([1.0], 2));
+        $store->query(new QueryVectorsRequest([2.0], 2));
+
+        $this->assertSame(2, $inner->queryCalls);
+    }
+}
