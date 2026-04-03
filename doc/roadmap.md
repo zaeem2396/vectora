@@ -99,9 +99,14 @@ Status: **complete** (see `doc/dx.md`).
 
 ## Phase 6 — Observability
 
+Status: **complete** (see `doc/observability.md`).
+
 | Module         | Sub-module / Task | Status  |
 | -------------- | ----------------- | ------- |
-| Observability  | Metrics / tracing | 🔴 Pending |
+| Observability  | HTTP metrics contract + null driver | 🟢 Done |
+| Observability  | Transport timing + correlation id | 🟢 Done |
+| Observability  | Laravel `PineconeHttpRequestFinished` event | 🟢 Done |
+| Observability  | Config + docs | 🟢 Done |
 
 ---
 
