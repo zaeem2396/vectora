@@ -16,9 +16,14 @@ final class MockHttpClient implements ClientInterface
     /** @var list<RequestInterface> */
     public array $requests = [];
 
+    public ?\Throwable $throwOnSend = null;
+
     public function sendRequest(RequestInterface $request): ResponseInterface
     {
         $this->requests[] = $request;
+        if ($this->throwOnSend !== null) {
+            throw $this->throwOnSend;
+        }
         $r = array_shift($this->responses);
         if ($r === null) {
             throw new \RuntimeException('MockHttpClient: no response queued.');
