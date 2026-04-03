@@ -10,6 +10,7 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Throwable;
+use Vectora\Pinecone\Contracts\PineconeMetrics;
 use Vectora\Pinecone\Core\Exception\ApiException;
 use Vectora\Pinecone\Core\Observability\ObservabilityHooks;
 
@@ -26,6 +27,7 @@ final class PineconeHttpTransport
         private readonly string $apiVersion,
         private readonly RetryPolicy $retryPolicy,
         private readonly ?ObservabilityHooks $hooks = null,
+        private readonly ?PineconeMetrics $metrics = null,
     ) {}
 
     /**
@@ -73,6 +75,8 @@ final class PineconeHttpTransport
      */
     private function sendWithRetries(callable $requestFactory): ResponseInterface
     {
+        $started = microtime(true);
+        $correlationId = bin2hex(random_bytes(8));
         $attempt = 0;
         $lastThrowable = null;
 
@@ -98,6 +102,12 @@ final class PineconeHttpTransport
                         $code,
                         $body !== '' ? $body : null
                     ));
+                    $this->metrics?->recordHttpOutcome(
+                        $request,
+                        microtime(true) - $started,
+                        $code,
+                        $correlationId
+                    );
                     throw new ApiException(
                         $this->messageFromErrorBody($body, $code),
                         $code,
@@ -106,6 +116,12 @@ final class PineconeHttpTransport
                 }
 
                 $this->hooks?->afterResponse($request, $response);
+                $this->metrics?->recordHttpOutcome(
+                    $request,
+                    microtime(true) - $started,
+                    $code,
+                    $correlationId
+                );
 
                 return $response;
             } catch (ApiException $e) {
@@ -114,6 +130,12 @@ final class PineconeHttpTransport
                 $lastThrowable = $e;
                 $this->hooks?->onError($request, $e);
                 if ($attempt >= $this->retryPolicy->maxAttempts) {
+                    $this->metrics?->recordTransportFailure(
+                        $request,
+                        microtime(true) - $started,
+                        $e::class,
+                        $correlationId
+                    );
                     throw $e;
                 }
                 $delay = $this->retryPolicy->delayMsForAttempt($attempt, null);
