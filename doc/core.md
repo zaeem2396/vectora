@@ -40,3 +40,5 @@ Optional **default namespace** (third constructor argument): when upsert/query/d
 ## Observability
 
 Pass `ObservabilityHooks` into `PineconeHttpTransport` for before/after/error callbacks without coupling to PSR-3.
+
+Optional **`PineconeMetrics`** (last constructor argument): records one outcome per logical HTTP call (after retries) with a correlation id. Use **`NullPineconeMetrics`** or omit (defaults to no metrics). See **`[observability.md](./observability.md)`** for Laravel event wiring.
