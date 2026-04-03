@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Vectora\Pinecone\Tests\Unit\Core;
 
 use GuzzleHttp\Psr7\HttpFactory;
+use Vectora\Pinecone\Contracts\PineconeMetrics;
 use Vectora\Pinecone\Core\Http\PineconeHttpTransport;
 use Vectora\Pinecone\Core\Http\RetryPolicy;
 use Vectora\Pinecone\Core\Observability\ObservabilityHooks;
@@ -22,6 +23,7 @@ final class PineconeTestFactories
         MockHttpClient $client,
         ?RetryPolicy $retry = null,
         ?ObservabilityHooks $hooks = null,
+        ?PineconeMetrics $metrics = null,
     ): PineconeHttpTransport {
         $f = self::httpFactory();
 
@@ -32,7 +34,8 @@ final class PineconeTestFactories
             'test-api-key',
             '2025-10',
             $retry ?? new RetryPolicy(maxAttempts: 5, initialDelayMs: 1, maxDelayMs: 10),
-            $hooks
+            $hooks,
+            $metrics
         );
     }
 
