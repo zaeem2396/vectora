@@ -86,10 +86,13 @@ Common optional keys (see published `config/pinecone.php` for the full list):
 | `OPENAI_API_KEY` | For OpenAI embeddings when using the `openai` driver |
 | `PINECONE_QUERY_CACHE` | Cache `query()` results via Laravel cache (see **[dx.md](./dx.md)**) |
 | `PINECONE_DEBUG` | Verbose truncated HTTP body logging (development only) |
+| `PINECONE_METRICS` | Dispatch `PineconeHttpRequestFinished` per HTTP call (see **[observability.md](./observability.md)**) |
 
 **Embeddings:** see **[embeddings.md](./embeddings.md)** for drivers and cache-related env vars.
 
 **DX / hardening:** see **[dx.md](./dx.md)** for query cache keys, debug options, config validation, and `ApiException` classification.
+
+**Observability:** see **[observability.md](./observability.md)** for metrics events and correlation ids.
 
 ---
 

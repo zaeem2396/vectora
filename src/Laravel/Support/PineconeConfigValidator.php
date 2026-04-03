@@ -47,5 +47,10 @@ final class PineconeConfigValidator
                 throw new \InvalidArgumentException('pinecone.query_cache.ttl must be non-negative when set.');
             }
         }
+
+        $metrics = $config['metrics'] ?? [];
+        if ($metrics !== [] && ! is_array($metrics)) {
+            throw new \InvalidArgumentException('pinecone.metrics must be an array.');
+        }
     }
 }

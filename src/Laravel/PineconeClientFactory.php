@@ -11,12 +11,15 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Log;
 use Psr\Http\Message\MessageInterface;
 use Vectora\Pinecone\Contracts\IndexAdminContract;
+use Vectora\Pinecone\Contracts\PineconeMetrics;
 use Vectora\Pinecone\Contracts\VectorStoreContract;
 use Vectora\Pinecone\Core\Http\PineconeHttpTransport;
 use Vectora\Pinecone\Core\Http\RetryPolicy;
+use Vectora\Pinecone\Core\Observability\NullPineconeMetrics;
 use Vectora\Pinecone\Core\Observability\ObservabilityHooks;
 use Vectora\Pinecone\Core\Pinecone\PineconeIndexAdmin;
 use Vectora\Pinecone\Core\Pinecone\PineconeVectorStore;
+use Vectora\Pinecone\Laravel\Observability\EventDispatchingPineconeMetrics;
 use Vectora\Pinecone\Laravel\Support\InteractsWithPineconeConfig;
 
 class PineconeClientFactory
@@ -67,6 +70,7 @@ class PineconeClientFactory
         );
 
         $hooks = $this->composeHooks($c);
+        $metrics = $this->makeMetrics($c);
 
         $factory = new HttpFactory;
         $this->transport = new PineconeHttpTransport(
@@ -77,6 +81,7 @@ class PineconeClientFactory
             (string) ($c['api_version'] ?? '2025-10'),
             $retry,
             $hooks,
+            $metrics,
         );
 
         return $this->transport;
@@ -97,6 +102,19 @@ class PineconeClientFactory
         }
 
         return ObservabilityHooks::stack(...$parts);
+    }
+
+    /**
+     * @param  array<string, mixed>  $c
+     */
+    private function makeMetrics(array $c): PineconeMetrics
+    {
+        $m = $c['metrics'] ?? [];
+        if (is_array($m) && (bool) ($m['enabled'] ?? false)) {
+            return $this->app->make(EventDispatchingPineconeMetrics::class);
+        }
+
+        return new NullPineconeMetrics;
     }
 
     /**

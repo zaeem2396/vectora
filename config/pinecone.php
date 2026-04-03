@@ -128,6 +128,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | HTTP metrics / tracing (Phase 6)
+    |--------------------------------------------------------------------------
+    |
+    | When enabled, dispatches PineconeHttpRequestFinished after each logical HTTP
+    | call (including correlation id and duration). Listeners can forward to APM or logs.
+    |
+    */
+    'metrics' => [
+        'enabled' => filter_var(env('PINECONE_METRICS', false), FILTER_VALIDATE_BOOL),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Embeddings (text → vector)
     |--------------------------------------------------------------------------
     |

@@ -55,6 +55,7 @@ php artisan queue:work
 | **[doc/eloquent.md](doc/eloquent.md)** | `HasEmbeddings`, semantic search, batch reindex |
 | **[doc/core.md](doc/core.md)** | Framework-agnostic HTTP client usage |
 | **[doc/dx.md](doc/dx.md)** | Query cache, debug HTTP logging, config validation, `ApiException` categories |
+| **[doc/observability.md](doc/observability.md)** | Phase 6: HTTP metrics, `PineconeHttpRequestFinished`, correlation ids |
 | **[doc/roadmap.md](doc/roadmap.md)** | Phases and future work |
 
 ### Examples (Phase 5 — DX)

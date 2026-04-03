@@ -49,4 +49,14 @@ final class PineconeConfigValidatorTest extends TestCase
             'query_cache' => ['enabled' => true, 'ttl' => -1],
         ]);
     }
+
+    public function test_rejects_non_array_metrics_section(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('pinecone.metrics must be an array');
+        PineconeConfigValidator::validate([
+            'http' => ['timeout' => 1, 'connect_timeout' => 1, 'retries' => 1],
+            'metrics' => 'invalid',
+        ]);
+    }
 }

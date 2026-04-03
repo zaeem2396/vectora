@@ -12,6 +12,7 @@ use Vectora\Pinecone\Laravel\Commands\PineconeFlushCommand;
 use Vectora\Pinecone\Laravel\Commands\PineconeSyncCommand;
 use Vectora\Pinecone\Laravel\Embeddings\EmbeddingDriverFactory;
 use Vectora\Pinecone\Laravel\Embeddings\EmbeddingManager;
+use Vectora\Pinecone\Laravel\Observability\EventDispatchingPineconeMetrics;
 use Vectora\Pinecone\Laravel\Support\PineconeConfigValidator;
 
 class PineconeServiceProvider extends ServiceProvider
@@ -22,6 +23,10 @@ class PineconeServiceProvider extends ServiceProvider
 
         $this->app->singleton(PineconeClientFactory::class, function ($app) {
             return new PineconeClientFactory($app);
+        });
+
+        $this->app->singleton(EventDispatchingPineconeMetrics::class, function ($app) {
+            return new EventDispatchingPineconeMetrics($app->make('events'));
         });
 
         $this->app->singleton('vectora.pinecone', function ($app) {
