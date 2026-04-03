@@ -33,3 +33,12 @@ Register a listener in your app (e.g. `Event::listen`) to push histograms, struc
 - **`EventDispatchingPineconeMetrics`** — Laravel implementation that dispatches the event above
 
 Pass a custom **`PineconeMetrics`** implementation as the last constructor argument to **`PineconeHttpTransport`** if you use the core client outside Laravel.
+
+---
+
+## Relation to Phase 5
+
+- **`ObservabilityHooks`** — fine-grained before/after/error callbacks (logging, debug bodies).
+- **`PineconeMetrics`** — one summary record per operation with duration and correlation id.
+
+You can enable both independently.
