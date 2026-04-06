@@ -17,4 +17,4 @@ composer format       # fix style
 composer test         # PHPUnit
 ```
 
-CI installs dependencies with `composer update` (no committed lockfile).
+CI installs dependencies with `composer update` (no committed lockfile). PHPUnit includes **ingestion** unit and feature tests (`tests/Unit/Ingestion`, `IngestionBuilderTest`).
