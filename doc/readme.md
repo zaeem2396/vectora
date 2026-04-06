@@ -42,6 +42,7 @@ The package is split so **vector storage is abstract** and **Laravel is optional
 | **Laravel** | Wiring only: provider, facade, config, logging callbacks. |
 | **Eloquent** | Scout-like DX: sync lifecycle, metadata, batch/queue indexing. |
 | **RAG (Phase 8)** | `RagPipeline`, `LLMDriver`, `Vector` facade / `Model::rag()` over `Embeddable` search. |
+| **Ingestion (Phase 9)** | Chunking, file/HTML/URL extractors, `IngestionPipeline`, `Vector::ingest()`, `IngestUpsertJob`. |
 | **Jobs / Commands** | Async and operational surfaces (`pinecone:sync`, `pinecone:flush`). |
 
 ### Data flow (RAG / semantic search)
@@ -64,11 +65,12 @@ See **[roadmap.md](./roadmap.md)** for phased delivery and future work.
 ```
 src/
   Core/           # Client, Pinecone adapter, retry middleware
-  Contracts/      # VectorStoreContract, EmbeddingDriver, …
-  DTO/            # Request/response value objects
-  Laravel/        # ServiceProvider, Facade
+  Contracts/      # VectorStoreContract, EmbeddingDriver, TextChunkingStrategy, …
+  DTO/            # Request/response value objects, IngestedChunk
+  Ingestion/      # Phase 9: chunking, extractors, pipeline, URL fetch
+  Laravel/        # ServiceProvider, Facade, IngestionBuilder, RAG
   Eloquent/       # HasEmbeddings trait, searchable scope
-  Jobs/           # UpsertModelEmbedding, BatchSync, …
+  Jobs/           # UpsertModelEmbedding, IngestUpsertJob, …
   Commands/       # pinecone:sync, pinecone:flush
 config/
 tests/
@@ -93,3 +95,4 @@ doc/
 | [observability.md](./observability.md) | Phase 6: HTTP metrics, correlation id, Laravel events |
 | [multi-backend.md](./multi-backend.md) | Phase 7: alternate vector stores, `VectorStoreManager`, per-model driver |
 | [rag.md](./rag.md) | Phase 8: RAG pipeline, LLM drivers, streaming, conversation memory |
+| [ingestion.md](./ingestion.md) | Phase 9: chunking, file/web ingestion, `Vector::ingest()`, queue jobs |
