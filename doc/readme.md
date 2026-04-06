@@ -41,6 +41,7 @@ The package is split so **vector storage is abstract** and **Laravel is optional
 | **Contracts** | `VectorStoreContract`, `EmbeddingDriver`, `EmbeddingProvider` — SOLID, mocking, custom drivers. |
 | **Laravel** | Wiring only: provider, facade, config, logging callbacks. |
 | **Eloquent** | Scout-like DX: sync lifecycle, metadata, batch/queue indexing. |
+| **RAG (Phase 8)** | `RagPipeline`, `LLMDriver`, `Vector` facade / `Model::rag()` over `Embeddable` search. |
 | **Jobs / Commands** | Async and operational surfaces (`pinecone:sync`, `pinecone:flush`). |
 
 ### Data flow (RAG / semantic search)
@@ -91,3 +92,4 @@ doc/
 | [dx.md](./dx.md) | Phase 5: query cache, debug logging, config validation, error classification |
 | [observability.md](./observability.md) | Phase 6: HTTP metrics, correlation id, Laravel events |
 | [multi-backend.md](./multi-backend.md) | Phase 7: alternate vector stores, `VectorStoreManager`, per-model driver |
+| [rag.md](./rag.md) | Phase 8: RAG pipeline, LLM drivers, streaming, conversation memory |
