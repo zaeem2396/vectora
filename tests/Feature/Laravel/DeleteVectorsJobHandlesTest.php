@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Event;
 use Vectora\Pinecone\Laravel\Events\VectorSynced;
 use Vectora\Pinecone\Laravel\Jobs\DeleteVectorsJob;
 use Vectora\Pinecone\Laravel\PineconeClientFactory;
+use Vectora\Pinecone\Laravel\VectorStoreManager;
 use Vectora\Pinecone\Tests\Unit\Core\MockHttpClient;
 use Vectora\Pinecone\Tests\Unit\Core\PineconeTestFactories;
 
@@ -37,7 +38,7 @@ final class DeleteVectorsJobHandlesTest extends PineconeFeatureTestCase
         });
 
         $job = new DeleteVectorsJob(ids: ['x'], index: null);
-        $job->handle($this->app->make(PineconeClientFactory::class));
+        $job->handle($this->app->make(VectorStoreManager::class));
 
         Event::assertDispatched(VectorSynced::class, fn (VectorSynced $e) => $e->operation === 'delete');
     }
