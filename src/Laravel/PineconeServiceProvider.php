@@ -8,6 +8,7 @@ use Illuminate\Support\ServiceProvider;
 use Vectora\Pinecone\Contracts\EmbeddingDriver;
 use Vectora\Pinecone\Contracts\IndexAdminContract;
 use Vectora\Pinecone\Contracts\VectorStoreContract;
+use Vectora\Pinecone\Core\VectorStore\LocalMemoryVectorStore;
 use Vectora\Pinecone\Laravel\Commands\PineconeFlushCommand;
 use Vectora\Pinecone\Laravel\Commands\PineconeSyncCommand;
 use Vectora\Pinecone\Laravel\Embeddings\EmbeddingDriverFactory;
@@ -33,6 +34,14 @@ class PineconeServiceProvider extends ServiceProvider
             return new PineconeManager($app);
         });
 
+        $this->app->singleton(LocalMemoryVectorStore::class);
+
+        $this->app->singleton(VectorStoreManager::class);
+
+        $this->app->bind(VectorStoreContract::class, function ($app) {
+            return $app->make(VectorStoreManager::class)->driver();
+        });
+
         $this->app->singleton(EmbeddingDriverFactory::class, function ($app) {
             return new EmbeddingDriverFactory($app);
         });
@@ -43,10 +52,6 @@ class PineconeServiceProvider extends ServiceProvider
 
         $this->app->bind(EmbeddingDriver::class, function ($app) {
             return $app->make(EmbeddingManager::class)->driver();
-        });
-
-        $this->app->bind(VectorStoreContract::class, function ($app) {
-            return $app->make(PineconeClientFactory::class)->vectorStore();
         });
 
         $this->app->bind(IndexAdminContract::class, function ($app) {
