@@ -26,15 +26,29 @@ class PineconeManager
 
     public function admin(): IndexAdminContract
     {
-        $vs = $this->app['config']->get('pinecone.vector_store', []);
-        $default = is_array($vs) && isset($vs['default']) ? (string) $vs['default'] : 'pinecone';
+        self::assertDefaultVectorStoreDriverIsPinecone($this->app['config']->get('pinecone.vector_store', []));
+
+        return $this->app->make(PineconeClientFactory::class)->indexAdmin();
+    }
+
+    /**
+     * Pinecone index admin (control plane) only applies when the default vector store is the Pinecone driver.
+     *
+     * @param  mixed  $vectorStoreConfig  `pinecone.vector_store` config array
+     */
+    public static function assertDefaultVectorStoreDriverIsPinecone(mixed $vectorStoreConfig): void
+    {
+        $vs = is_array($vectorStoreConfig) ? $vectorStoreConfig : [];
+        $raw = isset($vs['default']) ? (string) $vs['default'] : 'pinecone';
+        $default = strtolower(trim($raw));
+        if ($default === '') {
+            $default = 'pinecone';
+        }
         if ($default !== 'pinecone') {
             throw new \RuntimeException(
                 'Pinecone control plane (index admin) is only available when pinecone.vector_store.default is "pinecone".'
             );
         }
-
-        return $this->app->make(PineconeClientFactory::class)->indexAdmin();
     }
 
     public function embeddings(?string $driver = null): EmbeddingDriver

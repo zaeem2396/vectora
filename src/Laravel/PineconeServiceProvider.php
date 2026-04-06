@@ -55,6 +55,8 @@ class PineconeServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(IndexAdminContract::class, function ($app) {
+            PineconeManager::assertDefaultVectorStoreDriverIsPinecone($app['config']->get('pinecone.vector_store', []));
+
             return $app->make(PineconeClientFactory::class)->indexAdmin();
         });
     }
