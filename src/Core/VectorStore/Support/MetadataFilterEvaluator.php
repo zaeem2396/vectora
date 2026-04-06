@@ -33,18 +33,23 @@ final class MetadataFilterEvaluator
                     return false;
                 }
             }
-
-            return true;
         }
 
         if (isset($filter['$or']) && is_array($filter['$or'])) {
-            foreach ($filter['$or'] as $sub) {
+            $branches = $filter['$or'];
+            if ($branches === []) {
+                return false;
+            }
+            $any = false;
+            foreach ($branches as $sub) {
                 if (is_array($sub) && self::evaluate($meta, $sub)) {
-                    return true;
+                    $any = true;
+                    break;
                 }
             }
-
-            return false;
+            if (! $any) {
+                return false;
+            }
         }
 
         foreach ($filter as $key => $cond) {
@@ -55,12 +60,17 @@ final class MetadataFilterEvaluator
                 continue;
             }
             $val = $meta[$key] ?? null;
-            if (isset($cond['$eq'])) {
-                if ($val !== $cond['$eq'] && (string) $val !== (string) $cond['$eq']) {
+            if (array_key_exists('$eq', $cond)) {
+                $expected = $cond['$eq'];
+                if ($expected === null) {
+                    if ($val !== null) {
+                        return false;
+                    }
+                } elseif ($val !== $expected && (string) $val !== (string) $expected) {
                     return false;
                 }
             }
-            if (isset($cond['$in']) && is_array($cond['$in'])) {
+            if (array_key_exists('$in', $cond) && is_array($cond['$in'])) {
                 if (! in_array($val, $cond['$in'], true) && ! in_array((string) $val, array_map('strval', $cond['$in']), true)) {
                     return false;
                 }
