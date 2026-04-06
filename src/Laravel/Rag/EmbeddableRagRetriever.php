@@ -27,40 +27,59 @@ final class EmbeddableRagRetriever implements RagRetrieverContract
         /** @var class-string<Model&Embeddable> $class */
         $class = $this->modelClass;
         $result = $class::semanticSearch($query, $topK, $additionalFilter);
+
+        return $this->chunksFromMatches($class, $result->matches);
+    }
+
+    /**
+     * @param  class-string<Model&Embeddable>  $class
+     * @param  list<QueryVectorMatch>  $matches
+     * @return list<RagSourceChunk>
+     */
+    private function chunksFromMatches(string $class, array $matches): array
+    {
+        if ($matches === []) {
+            return [];
+        }
+
+        $lookupKeys = [];
+        foreach ($matches as $m) {
+            $lookupKeys[] = $this->lookupKeyForMatch($m);
+        }
+
+        $keyName = ($class::query()->getModel())->getKeyName();
+        $uniqueKeys = array_values(array_unique($lookupKeys));
+
+        $found = $class::query()->whereIn($keyName, $uniqueKeys)->get()->keyBy(
+            static fn (Model $row): string => (string) $row->getKey()
+        );
+
         $chunks = [];
-        foreach ($result->matches as $m) {
-            $chunks[] = $this->matchToChunk($m);
+        foreach ($matches as $i => $m) {
+            $meta = is_array($m->metadata) ? $m->metadata : [];
+            $key = $lookupKeys[$i];
+            $row = $found->get((string) $key);
+            $text = '';
+            if ($row instanceof Embeddable) {
+                $t = trim($row->vectorEmbeddingText());
+                $text = $t !== '' ? $t : $this->fallbackSnippet($meta);
+            } else {
+                $text = $this->fallbackSnippet($meta);
+            }
+            $chunks[] = new RagSourceChunk($m->id, $text, $m->score, $meta);
         }
 
         return $chunks;
     }
 
-    private function matchToChunk(QueryVectorMatch $m): RagSourceChunk
+    private function lookupKeyForMatch(QueryVectorMatch $m): string
     {
-        $text = $this->resolveText($m);
-        $meta = is_array($m->metadata) ? $m->metadata : [];
-
-        return new RagSourceChunk($m->id, $text, $m->score, $meta);
-    }
-
-    private function resolveText(QueryVectorMatch $m): string
-    {
-        /** @var class-string<Model&Embeddable> $class */
-        $class = $this->modelClass;
-        $key = $m->id;
         $meta = $m->metadata ?? [];
         if (isset($meta['vectora_key'])) {
-            $key = (string) $meta['vectora_key'];
+            return (string) $meta['vectora_key'];
         }
 
-        $row = $class::query()->find($key);
-        if ($row instanceof Embeddable) {
-            $t = trim($row->vectorEmbeddingText());
-
-            return $t !== '' ? $t : $this->fallbackSnippet($meta);
-        }
-
-        return $this->fallbackSnippet($meta);
+        return (string) $m->id;
     }
 
     /**
