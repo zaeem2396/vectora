@@ -31,6 +31,12 @@ interface Embeddable
     /** Logical Pinecone index connection name; null uses the default index. */
     public static function vectorEmbeddingIndex(): ?string;
 
+    /**
+     * Optional `pinecone.vector_store.drivers` key; null uses `vector_store.default`.
+     * When not `pinecone`, {@see vectorEmbeddingIndex()} is ignored for the vector store (still used for jobs metadata).
+     */
+    public static function vectorEmbeddingStoreDriver(): ?string;
+
     /** Namespace segment for upsert/query/delete; null uses the connection default. */
     public static function vectorEmbeddingNamespace(): ?string;
 
