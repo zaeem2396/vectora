@@ -37,6 +37,7 @@ Optional **default namespace** (third constructor argument): when upsert/query/d
 - `Vectora\Pinecone\Contracts\VectorStoreContract` — vector operations; implementations include **`PineconeVectorStore`**, **`LocalMemoryVectorStore`**, **`SqliteVectorStore`**, **`QdrantVectorStore`**, **`WeaviateVectorStore`**, **`PgVectorVectorStore`** (see **[multi-backend.md](./multi-backend.md)**).
 - `Vectora\Pinecone\Contracts\ProvidesVectorStoreCapabilities` — optional capability advertisement for a store.
 - `Vectora\Pinecone\Contracts\IndexAdminContract` — index lifecycle.
+- `Vectora\Pinecone\Contracts\RagRetrieverContract` / **`LLMDriver`** — RAG retrieval and chat completion (Phase 8; see **[rag.md](./rag.md)**).
 
 ## Observability
 
