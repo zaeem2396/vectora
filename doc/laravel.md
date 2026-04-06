@@ -26,6 +26,12 @@ See **[multi-backend.md](./multi-backend.md)** for env vars and driver behaviour
 
 See **[rag.md](./rag.md)** for streaming, metadata filters, and optional **`ConversationMemory`**.
 
+## Data ingestion (Phase 9)
+
+Use **`Vector::ingest()`** for file/HTML/URL → chunk → embed → upsert via **`VectorStoreManager`** (same driver as Eloquent). **`syncUpsert()`** runs inline; **`dispatchUpsert()`** queues **`IngestUpsertJob`**. Configure default chunk size/overlap under **`pinecone.ingestion`**.
+
+See **[ingestion.md](./ingestion.md)** for chunking strategies, extractors, and events.
+
 ## Multi-index configuration
 
 `config/pinecone.php` supports named connections under `indexes`, with `default` selecting which name `Pinecone::connection()` uses when no argument is passed.
@@ -63,6 +69,7 @@ Phase 4: **`HasEmbeddings`** on models implementing **`Embeddable`**, with **`Sy
 | `DeleteVectorsJob` | Async delete by ids, filter, or `deleteAll` |
 | `SyncModelEmbeddingJob` | Queued upsert for `HasEmbeddings` models |
 | `DescribeIndexStatsJob` | Async stats / health |
+| `IngestUpsertJob` | Phase 9: batch embed + upsert from `Vector::ingest()->dispatchUpsert()` |
 
 Jobs honour `pinecone.queue.connection` and `pinecone.queue.queue`. Successful operations dispatch `VectorSynced`; failures dispatch `VectorFailed` before rethrowing.
 
