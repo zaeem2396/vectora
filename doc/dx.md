@@ -60,5 +60,6 @@ Use these in listeners or `VectorFailed` handlers to branch on failure type with
 
 - **[installation.md](./installation.md)** — environment variables
 - **[laravel.md](./laravel.md)** — service provider, facade, jobs
+- **[ingestion.md](./ingestion.md)** — Phase 9 `Vector::ingest()` and chunk defaults
 - **[observability.md](./observability.md)** — Phase 6 HTTP metrics and `PineconeHttpRequestFinished`
 - **[roadmap.md](./roadmap.md)** — phase status
