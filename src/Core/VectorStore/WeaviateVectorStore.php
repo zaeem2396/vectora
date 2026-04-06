@@ -332,11 +332,14 @@ final class WeaviateVectorStore implements ProvidesVectorStoreCapabilities, Vect
     private function deleteByFilterScan(string $ns, array $filter): void
     {
         $class = $this->graphqlClass();
+        $limit = 500;
+        $offset = 0;
         $query = <<<GQL
-            query Scan(\$ns: String!) {
+            query Scan(\$ns: String!, \$lim: Int!, \$off: Int!) {
               Get {
                 {$class}(
-                  limit: 500
+                  limit: \$lim
+                  offset: \$off
                   where: {
                     path: ["{$this->graphqlProp(self::PROP_NS)}"]
                     operator: Equal
@@ -349,41 +352,57 @@ final class WeaviateVectorStore implements ProvidesVectorStoreCapabilities, Vect
               }
             }
             GQL;
-        $raw = $this->graphql($query, ['ns' => $ns]);
-        /** @var array<string, mixed> $decoded */
-        $decoded = Json::decodeObject($raw);
-        $items = $decoded['data']['Get'][$class] ?? [];
-        if (! is_array($items)) {
-            return;
-        }
-        foreach ($items as $row) {
-            if (! is_array($row)) {
-                continue;
+
+        while (true) {
+            $raw = $this->graphql($query, ['ns' => $ns, 'lim' => $limit, 'off' => $offset]);
+            /** @var array<string, mixed> $decoded */
+            $decoded = Json::decodeObject($raw);
+            $items = $decoded['data']['Get'][$class] ?? [];
+            if (! is_array($items) || $items === []) {
+                break;
             }
-            $metaJson = $row[self::PROP_META] ?? null;
-            $meta = null;
-            if (is_string($metaJson) && $metaJson !== '') {
-                try {
-                    $meta = Json::decodeObject($metaJson);
-                } catch (\InvalidArgumentException) {
-                    $meta = [];
+
+            $deletedAny = false;
+            foreach ($items as $row) {
+                if (! is_array($row)) {
+                    continue;
                 }
+                $metaJson = $row[self::PROP_META] ?? null;
+                $meta = null;
+                if (is_string($metaJson) && $metaJson !== '') {
+                    try {
+                        $meta = Json::decodeObject($metaJson);
+                    } catch (\InvalidArgumentException) {
+                        $meta = [];
+                    }
+                }
+                if (! MetadataFilterEvaluator::matches($meta, $filter)) {
+                    continue;
+                }
+                $add = isset($row['_additional']) && is_array($row['_additional']) ? $row['_additional'] : [];
+                $wid = isset($add['id']) && is_string($add['id']) ? $add['id'] : '';
+                if ($wid === '') {
+                    continue;
+                }
+                $url = $this->baseUrl.'/v1/objects/'.$this->enc($this->className).'/'.$wid;
+                $response = $this->http->delete($url, [
+                    'headers' => $this->headers(),
+                    'http_errors' => false,
+                ]);
+                if ($response->getStatusCode() >= 400 && $response->getStatusCode() !== 404) {
+                    $this->assertOk($response->getStatusCode(), (string) $response->getBody(), 'weaviate delete filter');
+                }
+                $deletedAny = true;
             }
-            if (! MetadataFilterEvaluator::matches($meta, $filter)) {
-                continue;
+
+            $batchCount = count($items);
+            if ($batchCount < $limit) {
+                break;
             }
-            $add = isset($row['_additional']) && is_array($row['_additional']) ? $row['_additional'] : [];
-            $wid = isset($add['id']) && is_string($add['id']) ? $add['id'] : '';
-            if ($wid === '') {
-                continue;
-            }
-            $url = $this->baseUrl.'/v1/objects/'.$this->enc($this->className).'/'.$wid;
-            $response = $this->http->delete($url, [
-                'headers' => $this->headers(),
-                'http_errors' => false,
-            ]);
-            if ($response->getStatusCode() >= 400 && $response->getStatusCode() !== 404) {
-                $this->assertOk($response->getStatusCode(), (string) $response->getBody(), 'weaviate delete filter');
+            if ($deletedAny) {
+                $offset = 0;
+            } else {
+                $offset += $limit;
             }
         }
     }
