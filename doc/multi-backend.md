@@ -60,8 +60,11 @@ Stores that implement **`ProvidesVectorStoreCapabilities`** expose **`vectorStor
 
 ---
 
+**Phase 9 ingestion** (`Vector::ingest()->syncUpsert()`) resolves vectors through **`VectorStoreManager::driver()`**, so the same multi-backend rules apply as for Eloquent sync.
+
 ## Further reading
 
 - **[laravel.md](./laravel.md)** — facade, jobs, manager usage  
 - **[eloquent.md](./eloquent.md)** — `HasEmbeddings`, sync modes  
 - **[core.md](./core.md)** — framework-agnostic `VectorStoreContract` usage  
+- **[ingestion.md](./ingestion.md)** — chunking, extractors, `IngestUpsertJob`  
