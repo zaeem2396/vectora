@@ -12,6 +12,9 @@ This guide covers installing **Vectora** (`vectora/laravel-pinecone`) in a Larav
 | Laravel | **11.x** or **12.x** |
 | Pinecone | API key and index **host** (from the Pinecone console) |
 | Queue (optional) | Redis, database, or other Laravel queue driver if you use **queued** jobs or `PINECONE_ELOQUENT_SYNC=queued` |
+| ext-zip (optional) | Recommended for **DOCX** text extraction (Phase 9 ingestion) |
+
+The package ships **`smalot/pdfparser`** for **PDF** ingestion. No extra Composer step is required.
 
 ---
 
