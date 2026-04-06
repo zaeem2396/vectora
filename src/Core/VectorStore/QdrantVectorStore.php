@@ -10,6 +10,7 @@ use Vectora\Pinecone\Contracts\VectorStoreContract;
 use Vectora\Pinecone\Core\Exception\ApiException;
 use Vectora\Pinecone\Core\Http\Json;
 use Vectora\Pinecone\Core\VectorStore\Support\PineconeFilterForQdrant;
+use Vectora\Pinecone\Core\VectorStore\Support\WeaviateUuid;
 use Vectora\Pinecone\DTO\DeleteVectorsRequest;
 use Vectora\Pinecone\DTO\DescribeIndexStatsResult;
 use Vectora\Pinecone\DTO\NamespaceSummary;
@@ -277,9 +278,13 @@ final class QdrantVectorStore implements ProvidesVectorStoreCapabilities, Vector
         return $namespace ?? '';
     }
 
+    /**
+     * Qdrant accepts integer ids or UUID strings — not arbitrary 64-char hex.
+     * Reuse deterministic UUIDv5-style ids (same scheme as Weaviate) for stability.
+     */
     private function internalPointId(string $ns, string $id): string
     {
-        return bin2hex(hash('sha256', $ns."\0".$id, true));
+        return WeaviateUuid::fromNamespaceAndId($ns, $id);
     }
 
     /**

@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Vectora\Pinecone\Core\VectorStore\Support;
 
-/** Deterministic UUIDv5 for Weaviate object ids from namespace + logical id. */
+/**
+ * Deterministic UUIDv5 from namespace + logical id.
+ * Used for Weaviate object ids and Qdrant point ids (Qdrant requires UUID or integer, not long hex strings).
+ */
 final class WeaviateUuid
 {
     /** DNS namespace UUID per RFC 4122. */

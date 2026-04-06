@@ -10,6 +10,7 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
+use Vectora\Pinecone\Core\Http\Json;
 use Vectora\Pinecone\Core\VectorStore\QdrantVectorStore;
 use Vectora\Pinecone\DTO\UpsertVectorsRequest;
 use Vectora\Pinecone\DTO\VectorRecord;
@@ -34,5 +35,16 @@ final class QdrantVectorStoreTest extends TestCase
         $req = $container[0]['request'];
         $this->assertStringContainsString('/collections/col/points', (string) $req->getUri());
         $this->assertSame('POST', $req->getMethod());
+        $body = Json::decodeObject((string) $req->getBody());
+        $points = $body['points'] ?? [];
+        $this->assertIsArray($points);
+        $this->assertArrayHasKey(0, $points);
+        $id = $points[0]['id'] ?? null;
+        $this->assertIsString($id);
+        $this->assertLessThanOrEqual(36, strlen($id));
+        $this->assertMatchesRegularExpression(
+            '/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i',
+            $id
+        );
     }
 }
