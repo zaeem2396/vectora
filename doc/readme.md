@@ -28,7 +28,7 @@ The package is split so **vector storage is abstract** and **Laravel is optional
                              │ vectors
 ┌────────────────────────────▼────────────────────────────────────┐
 │  Core layer (framework-agnostic)                                 │
-│  VectorStoreContract → Pinecone implementation                   │
+│  VectorStoreContract → Pinecone, Qdrant, Weaviate, SQLite, …     │
 │  HTTP · DTOs · retry · rate limits                               │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -37,7 +37,7 @@ The package is split so **vector storage is abstract** and **Laravel is optional
 
 | Layer | Role |
 |-------|------|
-| **Core** | Single place for Pinecone REST calls, auth, retries, DTOs. Testable without Laravel. Swappable backend later (e.g. another `VectorStoreContract`). |
+| **Core** | Pinecone REST client, retries, DTOs, and alternate **`VectorStoreContract`** drivers (memory, SQLite, Qdrant, Weaviate, pgvector). Testable without Laravel. |
 | **Contracts** | `VectorStoreContract`, `EmbeddingDriver`, `EmbeddingProvider` — SOLID, mocking, custom drivers. |
 | **Laravel** | Wiring only: provider, facade, config, logging callbacks. |
 | **Eloquent** | Scout-like DX: sync lifecycle, metadata, batch/queue indexing. |
@@ -90,3 +90,4 @@ doc/
 | [eloquent.md](./eloquent.md) | Phase 4: HasEmbeddings, semantic search, batch |
 | [dx.md](./dx.md) | Phase 5: query cache, debug logging, config validation, error classification |
 | [observability.md](./observability.md) | Phase 6: HTTP metrics, correlation id, Laravel events |
+| [multi-backend.md](./multi-backend.md) | Phase 7: alternate vector stores, `VectorStoreManager`, per-model driver |
