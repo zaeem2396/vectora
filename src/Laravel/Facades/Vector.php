@@ -10,6 +10,7 @@ use Vectora\Pinecone\Laravel\Rag\RagQueryFactory;
 
 /**
  * @method static RagQueryBuilder using(string $modelClass)
+ * @method static \Vectora\Pinecone\Laravel\Ingestion\IngestionBuilder ingest()
  *
  * @see RagQueryFactory
  */
