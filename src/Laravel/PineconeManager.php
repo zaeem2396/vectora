@@ -26,6 +26,14 @@ class PineconeManager
 
     public function admin(): IndexAdminContract
     {
+        $vs = $this->app['config']->get('pinecone.vector_store', []);
+        $default = is_array($vs) && isset($vs['default']) ? (string) $vs['default'] : 'pinecone';
+        if ($default !== 'pinecone') {
+            throw new \RuntimeException(
+                'Pinecone control plane (index admin) is only available when pinecone.vector_store.default is "pinecone".'
+            );
+        }
+
         return $this->app->make(PineconeClientFactory::class)->indexAdmin();
     }
 
