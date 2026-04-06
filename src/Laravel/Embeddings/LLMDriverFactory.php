@@ -22,7 +22,11 @@ final class LLMDriverFactory
     {
         /** @var array<string, mixed> $cfg */
         $cfg = $this->app['config']->get('pinecone.llm', []);
-        $resolved = $name ?? (string) ($cfg['default'] ?? 'stub');
+        $raw = $name ?? (string) ($cfg['default'] ?? 'stub');
+        $resolved = strtolower(trim($raw));
+        if ($resolved === '') {
+            $resolved = 'stub';
+        }
         $drivers = $cfg['drivers'] ?? [];
         if (! is_array($drivers)) {
             $drivers = [];
