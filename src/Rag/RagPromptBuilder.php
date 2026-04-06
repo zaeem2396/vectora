@@ -15,7 +15,7 @@ final class RagPromptBuilder
 {
     /**
      * @param  list<RagSourceChunk>  $chunks
-     * @param  list<array{role: string, content: string}>  $priorMessages
+     * @param  list<array{role: string, content: string}>  $priorMessages  Only `user` and `assistant` (matches {@see ConversationMemory}); `system` entries are skipped to avoid multiple system messages.
      * @return list<ChatMessage>
      */
     public function buildMessages(
@@ -44,7 +44,7 @@ final class RagPromptBuilder
             if ($role === '' || $content === '') {
                 continue;
             }
-            if (! in_array($role, ['user', 'assistant', 'system'], true)) {
+            if (! in_array($role, ['user', 'assistant'], true)) {
                 continue;
             }
             $out[] = ['role' => $role, 'content' => $content];
