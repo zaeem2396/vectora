@@ -89,3 +89,4 @@ In **`sync`** mode, batch upserts use **`embedMany()`** + a single Pinecone upse
 - [roadmap.md](./roadmap.md) — Phase 4 checklist  
 - [embeddings.md](./embeddings.md) — embedding drivers  
 - [laravel.md](./laravel.md) — jobs, config, facade  
+- [ingestion.md](./ingestion.md) — Phase 9: bulk ingest paths that are not tied to a single Eloquent row  
