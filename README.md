@@ -28,7 +28,7 @@ If the package is not yet on [Packagist](https://packagist.org/), require it fro
 }
 ```
 
-Laravel **auto-discovers** `PineconeServiceProvider` and registers the **`Pinecone`** facade.
+Laravel **auto-discovers** `PineconeServiceProvider` and registers the **`Pinecone`** and **`Vector`** facades.
 
 Publish configuration:
 
@@ -57,6 +57,7 @@ php artisan queue:work
 | **[doc/dx.md](doc/dx.md)** | Query cache, debug HTTP logging, config validation, `ApiException` categories |
 | **[doc/observability.md](doc/observability.md)** | Phase 6: HTTP metrics, `PineconeHttpRequestFinished`, correlation ids |
 | **[doc/multi-backend.md](doc/multi-backend.md)** | Phase 7: Qdrant, Weaviate, SQLite, pgvector, `VectorStoreManager` |
+| **[doc/rag.md](doc/rag.md)** | Phase 8: RAG pipeline, `Vector` facade, LLM drivers, streaming |
 | **[doc/roadmap.md](doc/roadmap.md)** | Phases and future work |
 
 ### Examples (Phase 5 — DX)
