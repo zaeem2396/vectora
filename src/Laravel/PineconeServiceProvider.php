@@ -10,12 +10,16 @@ use Vectora\Pinecone\Contracts\IndexAdminContract;
 use Vectora\Pinecone\Contracts\LLMDriver;
 use Vectora\Pinecone\Contracts\VectorStoreContract;
 use Vectora\Pinecone\Core\VectorStore\LocalMemoryVectorStore;
+use Vectora\Pinecone\Ingestion\ExtractorRegistry;
+use Vectora\Pinecone\Ingestion\Http\GuzzleUrlReader;
+use Vectora\Pinecone\Ingestion\IngestionPipeline;
 use Vectora\Pinecone\Laravel\Commands\PineconeFlushCommand;
 use Vectora\Pinecone\Laravel\Commands\PineconeSyncCommand;
 use Vectora\Pinecone\Laravel\Embeddings\EmbeddingDriverFactory;
 use Vectora\Pinecone\Laravel\Embeddings\EmbeddingManager;
 use Vectora\Pinecone\Laravel\Embeddings\LLMDriverFactory;
 use Vectora\Pinecone\Laravel\Embeddings\LLMManager;
+use Vectora\Pinecone\Laravel\Ingestion\IngestionFactory;
 use Vectora\Pinecone\Laravel\Observability\EventDispatchingPineconeMetrics;
 use Vectora\Pinecone\Laravel\Rag\RagQueryFactory;
 use Vectora\Pinecone\Laravel\Support\PineconeConfigValidator;
@@ -70,8 +74,19 @@ class PineconeServiceProvider extends ServiceProvider
             return $app->make(LLMManager::class)->driver();
         });
 
+        $this->app->singleton(ExtractorRegistry::class);
+
+        $this->app->singleton(IngestionPipeline::class);
+
+        $this->app->singleton(GuzzleUrlReader::class);
+
+        $this->app->singleton(IngestionFactory::class);
+
         $this->app->singleton(RagQueryFactory::class, function ($app) {
-            return new RagQueryFactory($app->make(LLMManager::class));
+            return new RagQueryFactory(
+                $app->make(LLMManager::class),
+                $app->make(IngestionFactory::class),
+            );
         });
 
         $this->app->bind(IndexAdminContract::class, function ($app) {
