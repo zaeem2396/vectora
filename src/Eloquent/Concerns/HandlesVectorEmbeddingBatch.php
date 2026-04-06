@@ -11,7 +11,7 @@ use Vectora\Pinecone\Contracts\Embeddable;
 use Vectora\Pinecone\Contracts\EmbeddingDriver;
 use Vectora\Pinecone\DTO\UpsertVectorsRequest;
 use Vectora\Pinecone\DTO\VectorRecord;
-use Vectora\Pinecone\Laravel\PineconeClientFactory;
+use Vectora\Pinecone\Laravel\VectorStoreManager;
 
 /**
  * @phpstan-require-implements Embeddable
@@ -74,8 +74,7 @@ trait HandlesVectorEmbeddingBatch
     protected static function upsertVectorEmbeddingsForModelsSynchronously(Collection $models): void
     {
         $driver = app(EmbeddingDriver::class);
-        $factory = app(PineconeClientFactory::class);
-        $store = $factory->vectorStore(static::vectorEmbeddingIndex());
+        $store = app(VectorStoreManager::class)->forModel(static::class);
 
         /** @var list<Embeddable&Model> $pending */
         $pending = [];
