@@ -16,6 +16,8 @@ use Vectora\Pinecone\DTO\VectorRecord;
 use Vectora\Pinecone\Eloquent\SemanticFilter;
 use Vectora\Pinecone\Laravel\Jobs\DeleteVectorsJob;
 use Vectora\Pinecone\Laravel\Jobs\SyncModelEmbeddingJob;
+use Vectora\Pinecone\Laravel\Rag\RagQueryBuilder;
+use Vectora\Pinecone\Laravel\Rag\RagQueryFactory;
 use Vectora\Pinecone\Laravel\VectorStoreManager;
 
 /**
@@ -121,6 +123,16 @@ trait HasEmbeddings
     public static function semanticSearchMetadataFilter(): ?array
     {
         return ['vectora_model' => static::class];
+    }
+
+    /**
+     * Fluent RAG helper: retrieve context from this model’s index then call the configured LLM.
+     *
+     * @phpstan-require-implements Embeddable
+     */
+    public static function rag(): RagQueryBuilder
+    {
+        return app(RagQueryFactory::class)->using(static::class);
     }
 
     public function syncVectorEmbeddingNow(): void
