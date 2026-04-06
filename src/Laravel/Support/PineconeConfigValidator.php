@@ -72,5 +72,24 @@ final class PineconeConfigValidator
         if (is_array($pg) && isset($pg['dimensions']) && is_numeric($pg['dimensions']) && (int) $pg['dimensions'] < 1) {
             throw new \InvalidArgumentException('pinecone.vector_store.drivers.pgvector.dimensions must be at least 1.');
         }
+
+        $llm = $config['llm'] ?? [];
+        if (! is_array($llm)) {
+            throw new \InvalidArgumentException('pinecone.llm must be an array.');
+        }
+        $llmDrivers = $llm['drivers'] ?? [];
+        if (! is_array($llmDrivers)) {
+            throw new \InvalidArgumentException('pinecone.llm.drivers must be an array.');
+        }
+        $llmAllowed = ['stub', 'openai'];
+        $llmDef = strtolower(trim((string) ($llm['default'] ?? 'stub')));
+        if ($llmDef === '') {
+            $llmDef = 'stub';
+        }
+        if (! in_array($llmDef, $llmAllowed, true)) {
+            throw new \InvalidArgumentException(
+                'pinecone.llm.default must be one of: '.implode(', ', $llmAllowed).'.'
+            );
+        }
     }
 }
