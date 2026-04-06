@@ -91,4 +91,4 @@ Implement **`RagRetrieverContract`** or **`LLMDriver`**, bind your implementatio
 
 ---
 
-See **[roadmap.md](./roadmap.md)** for Phase 9+ (ingestion, hybrid search, and DX improvements).
+**Phase 9 (ingestion):** load documents with **`Vector::ingest()`** before or alongside RAG — see **[ingestion.md](./ingestion.md)**. See **[roadmap.md](./roadmap.md)** for Phase 10+ (hybrid search, DX 2.0).
