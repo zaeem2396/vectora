@@ -87,8 +87,11 @@ Common optional keys (see published `config/pinecone.php` for the full list):
 | `PINECONE_QUERY_CACHE` | Cache `query()` results via Laravel cache (see **[dx.md](./dx.md)**) |
 | `PINECONE_DEBUG` | Verbose truncated HTTP body logging (development only) |
 | `PINECONE_METRICS` | Dispatch `PineconeHttpRequestFinished` per HTTP call (see **[observability.md](./observability.md)**) |
+| `VECTORA_VECTOR_STORE_DRIVER` | Default vector backend: `pinecone`, `memory`, `sqlite`, `qdrant`, `weaviate`, `pgvector` (see **[multi-backend.md](./multi-backend.md)**) |
 
 **Embeddings:** see **[embeddings.md](./embeddings.md)** for drivers and cache-related env vars.
+
+**Alternate vector stores:** see **[multi-backend.md](./multi-backend.md)** for Qdrant, Weaviate, SQLite, and pgvector env keys.
 
 **DX / hardening:** see **[dx.md](./dx.md)** for query cache keys, debug options, config validation, and `ApiException` classification.
 
@@ -128,6 +131,7 @@ Optional: `PINECONE_QUEUE_CONNECTION` and `PINECONE_QUEUE` in `.env` (see **[lar
 | Text → vectors (OpenAI, cache) | [embeddings.md](./embeddings.md) |
 | Model sync + semantic search | [eloquent.md](./eloquent.md) |
 | Low-level HTTP / contracts | [core.md](./core.md) |
+| Multi-backend (non-Pinecone indexes) | [multi-backend.md](./multi-backend.md) |
 
 ---
 
@@ -139,6 +143,7 @@ Optional: `PINECONE_QUEUE_CONNECTION` and `PINECONE_QUEUE` in `.env` (see **[lar
 | `host is not configured for index` | `PINECONE_HOST` or `indexes.*.host` for the connection name you use |
 | Vectors never appear | Queue worker running for queued mode; correct namespace; upsert not failing silently (check logs / `VectorFailed` event) |
 | OpenAI errors | `OPENAI_API_KEY`, model name, and `PINECONE_EMBEDDING_DRIVER=openai` |
+| `Pinecone::admin` fails with vector_store message | Default driver is not `pinecone`; set `VECTORA_VECTOR_STORE_DRIVER=pinecone` or use only data-plane APIs |
 
 ---
 
