@@ -8,7 +8,7 @@ Vectora routes **`VectorStoreContract`** through **`VectorStoreManager`**, confi
 
 | Env / key | Purpose |
 |-----------|---------|
-| **`VECTORA_VECTOR_STORE_DRIVER`** | `pinecone` (default), `memory`, `sqlite`, `qdrant`, `weaviate`, `pgvector` |
+| **`VECTORA_VECTOR_STORE_DRIVER`** | `pinecone` (default), `memory`, `sqlite`, `qdrant`, `weaviate`, `pgvector` (matched **case-insensitively**; config and `Embeddable::vectorEmbeddingStoreDriver()` are normalized to lowercase) |
 | `VECTORA_SQLITE_VECTOR_DATABASE` | SQLite path or `:memory:` |
 | `VECTORA_SQLITE_VECTOR_TABLE` | Table name (default `vectora_vectors`) |
 | `VECTORA_QDRANT_URL` | Qdrant REST base URL |
