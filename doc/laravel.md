@@ -4,7 +4,7 @@ First-time setup: **[installation.md](./installation.md)** (Composer, `.env`, pu
 
 ## Service provider & discovery
 
-The package registers `PineconeServiceProvider` and the `Pinecone` facade via `composer.json` `extra.laravel` (auto-discovery).
+The package registers `PineconeServiceProvider` and the **`Pinecone`** / **`Vector`** facades via `composer.json` `extra.laravel` (auto-discovery).
 
 Publish config:
 
@@ -19,6 +19,12 @@ php artisan vendor:publish --tag=pinecone-config
 **`Pinecone::admin()`** is only available when the default driver is **`pinecone`** (control plane is Pinecone-specific).
 
 See **[multi-backend.md](./multi-backend.md)** for env vars and driver behaviour.
+
+## RAG / LLM (Phase 8)
+
+`pinecone.llm.default` selects **`LLMDriver`** (`stub`, `openai`). Use **`Vector::using(YourModel::class)->ask('…')`** or **`YourModel::rag()->ask('…')`** on `Embeddable` models. Inject **`LLMManager`** for `driver(?string $name)`.
+
+See **[rag.md](./rag.md)** for streaming, metadata filters, and optional **`ConversationMemory`**.
 
 ## Multi-index configuration
 
@@ -41,7 +47,7 @@ The Laravel integration uses **Guzzle** as the PSR-18 client (`guzzlehttp/guzzle
 - `Pinecone::connection(?string $index)` → `VectorStoreContract` (Pinecone data plane when that is the resolved backend; see multi-backend docs)
 - `Pinecone::admin()` → `IndexAdminContract` (requires default vector store driver `pinecone`)
 - `Pinecone::embeddings(?string $driver)` / `embed()` / `embedMany()` → `EmbeddingDriver` (Phase 3)
-- Type-hint `VectorStoreContract` / `VectorStoreManager` / `IndexAdminContract` / `EmbeddingDriver` / `PineconeClientFactory` in your own services.
+- Type-hint `VectorStoreContract` / `VectorStoreManager` / `IndexAdminContract` / `EmbeddingDriver` / `LLMDriver` / `LLMManager` / `PineconeClientFactory` in your own services.
 
 See **[embeddings.md](./embeddings.md)** for drivers, OpenAI env vars, and optional result caching.
 
