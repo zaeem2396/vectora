@@ -7,6 +7,7 @@ namespace Vectora\Pinecone\Tests\Feature\Laravel;
 use Illuminate\Foundation\Application;
 use Orchestra\Testbench\TestCase;
 use Vectora\Pinecone\Laravel\Facades\Pinecone;
+use Vectora\Pinecone\Laravel\Facades\Vector;
 use Vectora\Pinecone\Laravel\PineconeServiceProvider;
 
 abstract class PineconeFeatureTestCase extends TestCase
@@ -34,6 +35,7 @@ abstract class PineconeFeatureTestCase extends TestCase
     {
         return [
             'Pinecone' => Pinecone::class,
+            'Vector' => Vector::class,
         ];
     }
 }
