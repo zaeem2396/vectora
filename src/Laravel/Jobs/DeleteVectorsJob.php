@@ -14,7 +14,7 @@ use Throwable;
 use Vectora\Pinecone\DTO\DeleteVectorsRequest;
 use Vectora\Pinecone\Laravel\Events\VectorFailed;
 use Vectora\Pinecone\Laravel\Events\VectorSynced;
-use Vectora\Pinecone\Laravel\PineconeClientFactory;
+use Vectora\Pinecone\Laravel\VectorStoreManager;
 
 final class DeleteVectorsJob implements ShouldQueue
 {
@@ -33,6 +33,7 @@ final class DeleteVectorsJob implements ShouldQueue
         public ?array $filter = null,
         public bool $deleteAll = false,
         public ?string $index = null,
+        public ?string $vectorStoreDriver = null,
     ) {
         $q = config('pinecone.queue', []);
         if (isset($q['connection']) && is_string($q['connection']) && $q['connection'] !== '') {
@@ -43,7 +44,7 @@ final class DeleteVectorsJob implements ShouldQueue
         }
     }
 
-    public function handle(PineconeClientFactory $factory): void
+    public function handle(VectorStoreManager $vectorStores): void
     {
         try {
             $request = new DeleteVectorsRequest(
@@ -52,16 +53,18 @@ final class DeleteVectorsJob implements ShouldQueue
                 filter: $this->filter,
                 deleteAll: $this->deleteAll,
             );
-            $factory->vectorStore($this->index)->delete($request);
+            $vectorStores->driver($this->vectorStoreDriver, $this->index)->delete($request);
 
             Event::dispatch(new VectorSynced('delete', [
                 'index' => $this->index,
+                'vector_store_driver' => $this->vectorStoreDriver,
                 'namespace' => $this->namespace,
                 'delete_all' => $this->deleteAll,
             ]));
         } catch (Throwable $e) {
             Event::dispatch(new VectorFailed('delete', $e->getMessage(), [
                 'index' => $this->index,
+                'vector_store_driver' => $this->vectorStoreDriver,
                 'namespace' => $this->namespace,
             ]));
 

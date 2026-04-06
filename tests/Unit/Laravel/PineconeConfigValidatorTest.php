@@ -59,4 +59,34 @@ final class PineconeConfigValidatorTest extends TestCase
             'metrics' => 'invalid',
         ]);
     }
+
+    public function test_rejects_non_array_vector_store(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('pinecone.vector_store must be an array');
+        PineconeConfigValidator::validate([
+            'http' => ['timeout' => 1, 'connect_timeout' => 1, 'retries' => 1],
+            'vector_store' => 'invalid',
+        ]);
+    }
+
+    public function test_rejects_unknown_vector_store_default(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('vector_store.default');
+        PineconeConfigValidator::validate([
+            'http' => ['timeout' => 1, 'connect_timeout' => 1, 'retries' => 1],
+            'vector_store' => ['default' => 'unknown-engine'],
+        ]);
+    }
+
+    public function test_rejects_non_array_vector_store_drivers(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('vector_store.drivers');
+        PineconeConfigValidator::validate([
+            'http' => ['timeout' => 1, 'connect_timeout' => 1, 'retries' => 1],
+            'vector_store' => ['default' => 'pinecone', 'drivers' => 'nope'],
+        ]);
+    }
 }

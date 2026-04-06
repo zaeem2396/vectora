@@ -15,4 +15,9 @@ use Vectora\Pinecone\Eloquent\Concerns\HasEmbeddings;
 abstract class AbstractEmbeddableModel extends Model implements Embeddable
 {
     use HasEmbeddings;
+
+    public static function vectorEmbeddingStoreDriver(): ?string
+    {
+        return null;
+    }
 }

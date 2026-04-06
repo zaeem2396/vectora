@@ -52,5 +52,25 @@ final class PineconeConfigValidator
         if ($metrics !== [] && ! is_array($metrics)) {
             throw new \InvalidArgumentException('pinecone.metrics must be an array.');
         }
+
+        $vs = $config['vector_store'] ?? [];
+        if (! is_array($vs)) {
+            throw new \InvalidArgumentException('pinecone.vector_store must be an array.');
+        }
+        $allowed = ['pinecone', 'memory', 'sqlite', 'qdrant', 'weaviate', 'pgvector'];
+        $def = strtolower((string) ($vs['default'] ?? 'pinecone'));
+        if (! in_array($def, $allowed, true)) {
+            throw new \InvalidArgumentException(
+                'pinecone.vector_store.default must be one of: '.implode(', ', $allowed).'.'
+            );
+        }
+        $drivers = $vs['drivers'] ?? [];
+        if (! is_array($drivers)) {
+            throw new \InvalidArgumentException('pinecone.vector_store.drivers must be an array.');
+        }
+        $pg = $drivers['pgvector'] ?? [];
+        if (is_array($pg) && isset($pg['dimensions']) && is_numeric($pg['dimensions']) && (int) $pg['dimensions'] < 1) {
+            throw new \InvalidArgumentException('pinecone.vector_store.drivers.pgvector.dimensions must be at least 1.');
+        }
     }
 }

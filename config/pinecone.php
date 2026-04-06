@@ -171,6 +171,44 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Vector store driver (multi-backend, Phase 7)
+    |--------------------------------------------------------------------------
+    |
+    | `default`: pinecone | memory | sqlite | qdrant | weaviate | pgvector
+    | Embeddable models may override via vectorEmbeddingStoreDriver().
+    | Non-pinecone drivers ignore Pinecone index host config; use driver blocks.
+    |
+    */
+    'vector_store' => [
+        'default' => env('VECTORA_VECTOR_STORE_DRIVER', 'pinecone'),
+        'drivers' => [
+            'pinecone' => [],
+            'memory' => [],
+            'sqlite' => [
+                'database' => env('VECTORA_SQLITE_VECTOR_DATABASE', ':memory:'),
+                'table' => env('VECTORA_SQLITE_VECTOR_TABLE', 'vectora_vectors'),
+            ],
+            'qdrant' => [
+                'url' => env('VECTORA_QDRANT_URL', 'http://127.0.0.1:6333'),
+                'api_key' => env('VECTORA_QDRANT_API_KEY', ''),
+                'collection' => env('VECTORA_QDRANT_COLLECTION', 'vectora'),
+            ],
+            'weaviate' => [
+                'url' => env('VECTORA_WEAVIATE_URL', 'http://127.0.0.1:8080'),
+                'api_key' => env('VECTORA_WEAVIATE_API_KEY', ''),
+                'class' => env('VECTORA_WEAVIATE_CLASS', 'VectoraVector'),
+            ],
+            'pgvector' => [
+                'connection' => env('VECTORA_PGVECTOR_CONNECTION'),
+                'table' => env('VECTORA_PGVECTOR_TABLE', 'vectora_vectors'),
+                'dimensions' => (int) env('VECTORA_PGVECTOR_DIMENSIONS', 8),
+                'ensure_schema' => filter_var(env('VECTORA_PGVECTOR_ENSURE_SCHEMA', false), FILTER_VALIDATE_BOOL),
+            ],
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Eloquent (HasEmbeddings)
     |--------------------------------------------------------------------------
     |

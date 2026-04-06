@@ -112,15 +112,17 @@ Status: **complete** (see `doc/observability.md`).
 
 ## Phase 7 — Multi-Backend Support
 
-| Module        | Sub-module / Task                              | Status     |
-| ------------- | ---------------------------------------------- | ---------- |
-| Multi-backend | Qdrant driver implementation                   | 🔴 Pending |
-| Multi-backend | Weaviate driver implementation                 | 🔴 Pending |
-| Multi-backend | Local driver (SQLite/file for testing)         | 🔴 Pending |
-| Multi-backend | pgvector (Postgres) driver                     | 🔴 Pending |
-| Multi-backend | Driver manager (`driver()` / config switching) | 🔴 Pending |
-| Multi-backend | Per-model driver support                       | 🔴 Pending |
-| Multi-backend | Driver capability detection                    | 🔴 Pending |
+Status: **complete** (see **[multi-backend.md](./multi-backend.md)**).
+
+| Module        | Sub-module / Task                              | Status  |
+| ------------- | ---------------------------------------------- | ------- |
+| Multi-backend | Qdrant driver implementation                   | 🟢 Done |
+| Multi-backend | Weaviate driver implementation                 | 🟢 Done |
+| Multi-backend | Local driver (SQLite/file for testing)         | 🟢 Done |
+| Multi-backend | pgvector (Postgres) driver                     | 🟢 Done |
+| Multi-backend | Driver manager (`driver()` / config switching) | 🟢 Done |
+| Multi-backend | Per-model driver support                       | 🟢 Done |
+| Multi-backend | Driver capability detection                    | 🟢 Done |
 
 ---
 
@@ -197,7 +199,7 @@ Status: **complete** (see `doc/observability.md`).
 
 | Module        | Sub-module / Task            | Status     |
 | ------------- | ---------------------------- | ---------- |
-| Multi-backend | Qdrant / Weaviate / pgvector | 🔴 Pending |
+| Multi-backend | Qdrant / Weaviate / pgvector | 🟢 Done (Phase 7) |
 | Abstraction   | Scout-style engine           | 🔴 Pending |
 | Search        | Hybrid + reranking           | 🔴 Pending |
 | AI            | Full RAG pipeline            | 🔴 Pending |

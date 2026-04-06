@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Vectora\Pinecone\Core\Pinecone;
 
 use Psr\Http\Message\ResponseInterface;
+use Vectora\Pinecone\Contracts\ProvidesVectorStoreCapabilities;
 use Vectora\Pinecone\Contracts\VectorStoreContract;
 use Vectora\Pinecone\Core\Http\Json;
 use Vectora\Pinecone\Core\Http\PineconeHttpTransport;
@@ -16,8 +17,9 @@ use Vectora\Pinecone\DTO\QueryVectorsRequest;
 use Vectora\Pinecone\DTO\QueryVectorsResult;
 use Vectora\Pinecone\DTO\UpsertResult;
 use Vectora\Pinecone\DTO\UpsertVectorsRequest;
+use Vectora\Pinecone\DTO\VectorStoreCapabilities;
 
-final class PineconeVectorStore implements VectorStoreContract
+final class PineconeVectorStore implements ProvidesVectorStoreCapabilities, VectorStoreContract
 {
     private readonly string $dataBaseUrl;
 
@@ -32,6 +34,17 @@ final class PineconeVectorStore implements VectorStoreContract
         $this->defaultNamespace = $defaultNamespace !== null && $defaultNamespace !== ''
             ? $defaultNamespace
             : null;
+    }
+
+    public function vectorStoreCapabilities(): VectorStoreCapabilities
+    {
+        return new VectorStoreCapabilities(
+            backendName: 'pinecone',
+            supportsNamespaces: true,
+            supportsMetadataFilter: true,
+            supportsDeleteByFilter: true,
+            supportsDescribeIndexStats: true,
+        );
     }
 
     public function upsert(UpsertVectorsRequest $request): UpsertResult

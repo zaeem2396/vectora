@@ -12,6 +12,14 @@ Publish config:
 php artisan vendor:publish --tag=pinecone-config
 ```
 
+## Vector store drivers (Phase 7)
+
+`pinecone.vector_store.default` selects the active **`VectorStoreContract`** implementation (`pinecone`, `memory`, `sqlite`, `qdrant`, `weaviate`, `pgvector`). Override per Eloquent model with **`Embeddable::vectorEmbeddingStoreDriver()`**. Inject **`VectorStoreManager`** to call **`driver(?string $name, ?string $pineconeIndex)`** explicitly.
+
+**`Pinecone::admin()`** is only available when the default driver is **`pinecone`** (control plane is Pinecone-specific).
+
+See **[multi-backend.md](./multi-backend.md)** for env vars and driver behaviour.
+
 ## Multi-index configuration
 
 `config/pinecone.php` supports named connections under `indexes`, with `default` selecting which name `Pinecone::connection()` uses when no argument is passed.
@@ -30,10 +38,10 @@ The Laravel integration uses **Guzzle** as the PSR-18 client (`guzzlehttp/guzzle
 
 ## Facade & container
 
-- `Pinecone::connection(?string $index)` → `VectorStoreContract`
-- `Pinecone::admin()` → `IndexAdminContract`
+- `Pinecone::connection(?string $index)` → `VectorStoreContract` (Pinecone data plane when that is the resolved backend; see multi-backend docs)
+- `Pinecone::admin()` → `IndexAdminContract` (requires default vector store driver `pinecone`)
 - `Pinecone::embeddings(?string $driver)` / `embed()` / `embedMany()` → `EmbeddingDriver` (Phase 3)
-- Type-hint `VectorStoreContract` / `IndexAdminContract` / `EmbeddingDriver` / `PineconeClientFactory` in your own services.
+- Type-hint `VectorStoreContract` / `VectorStoreManager` / `IndexAdminContract` / `EmbeddingDriver` / `PineconeClientFactory` in your own services.
 
 See **[embeddings.md](./embeddings.md)** for drivers, OpenAI env vars, and optional result caching.
 

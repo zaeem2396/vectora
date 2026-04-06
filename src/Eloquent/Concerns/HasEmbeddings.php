@@ -16,7 +16,7 @@ use Vectora\Pinecone\DTO\VectorRecord;
 use Vectora\Pinecone\Eloquent\SemanticFilter;
 use Vectora\Pinecone\Laravel\Jobs\DeleteVectorsJob;
 use Vectora\Pinecone\Laravel\Jobs\SyncModelEmbeddingJob;
-use Vectora\Pinecone\Laravel\PineconeClientFactory;
+use Vectora\Pinecone\Laravel\VectorStoreManager;
 
 /**
  * @phpstan-require-implements Embeddable
@@ -138,8 +138,7 @@ trait HasEmbeddings
 
         $driver = app(EmbeddingDriver::class);
         $vector = $driver->embed($text);
-        $factory = app(PineconeClientFactory::class);
-        $store = $factory->vectorStore(static::vectorEmbeddingIndex());
+        $store = app(VectorStoreManager::class)->forModel(static::class);
         $record = new VectorRecord(
             $this->vectorEmbeddingId(),
             $vector,
@@ -150,8 +149,7 @@ trait HasEmbeddings
 
     public function deleteVectorEmbeddingNow(): void
     {
-        $factory = app(PineconeClientFactory::class);
-        $store = $factory->vectorStore(static::vectorEmbeddingIndex());
+        $store = app(VectorStoreManager::class)->forModel(static::class);
         $store->delete(new DeleteVectorsRequest(
             namespace: static::vectorEmbeddingNamespace(),
             ids: [$this->vectorEmbeddingId()],
@@ -174,8 +172,7 @@ trait HasEmbeddings
         $driver = app(EmbeddingDriver::class);
         $vector = $driver->embed($query);
         $filter = SemanticFilter::merge(static::semanticSearchMetadataFilter(), $additionalFilter);
-        $factory = app(PineconeClientFactory::class);
-        $store = $factory->vectorStore(static::vectorEmbeddingIndex());
+        $store = app(VectorStoreManager::class)->forModel(static::class);
 
         return $store->query(new QueryVectorsRequest(
             vector: $vector,
@@ -245,6 +242,7 @@ trait HasEmbeddings
                 filter: null,
                 deleteAll: false,
                 index: static::vectorEmbeddingIndex(),
+                vectorStoreDriver: static::vectorEmbeddingStoreDriver(),
             );
         } else {
             $this->deleteVectorEmbeddingNow();
