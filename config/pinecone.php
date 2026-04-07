@@ -223,6 +223,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Advanced search (Phase 10)
+    |--------------------------------------------------------------------------
+    |
+    | Defaults for Pinecone::advancedSearch() when not overridden on the builder.
+    | Keyword boost adds per-token score to vector similarity when metadata text matches.
+    |
+    */
+    'search' => [
+        'default_fetch_top_k' => (int) env('VECTORA_SEARCH_FETCH_TOP_K', 50),
+        'keyword_boost_per_token' => (float) env('VECTORA_SEARCH_KEYWORD_BOOST', 0.05),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | LLM / RAG (Phase 8)
     |--------------------------------------------------------------------------
     |
