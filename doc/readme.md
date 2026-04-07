@@ -69,7 +69,8 @@ src/
   Contracts/      # VectorStoreContract, EmbeddingDriver, TextChunkingStrategy, …
   DTO/            # Request/response value objects, IngestedChunk
   Ingestion/      # Phase 9: chunking, extractors, pipeline, URL fetch
-  Laravel/        # ServiceProvider, Facade, IngestionBuilder, RAG
+  Search/         # Phase 10: score normalization, rerankers, facets, filter helpers
+  Laravel/        # ServiceProvider, Facade, IngestionBuilder, AdvancedSearchBuilder, RAG
   Eloquent/       # HasEmbeddings trait, searchable scope
   Jobs/           # UpsertModelEmbedding, IngestUpsertJob, …
   Commands/       # pinecone:sync, pinecone:flush
