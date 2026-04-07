@@ -1,6 +1,6 @@
 # Developer experience & hardening
 
-This page summarizes **Phase 5** features: query caching, HTTP debug logging, config validation at boot, and **`ApiException`** error classification for application-level handling.
+This page summarizes **Phase 5** features (query caching, HTTP debug logging, config validation, **`ApiException`**) and **Phase 11** (semantic Eloquent builder, **`#[EmbeddingColumns]`**, Artisan commands, clearer semantic errors).
 
 ---
 
@@ -55,12 +55,3 @@ Invalid configuration throws **`InvalidArgumentException`** early so misconfigur
 Use these in listeners or `VectorFailed` handlers to branch on failure type without parsing raw status codes everywhere.
 
 ---
-
-## Related docs
-
-- **[installation.md](./installation.md)** — environment variables
-- **[laravel.md](./laravel.md)** — service provider, facade, jobs
-- **[ingestion.md](./ingestion.md)** — Phase 9 `Vector::ingest()` and chunk defaults
-- **[search.md](./search.md)** — Phase 10 `Pinecone::advancedSearch()` and `pinecone.search` validation
-- **[observability.md](./observability.md)** — Phase 6 HTTP metrics and `PineconeHttpRequestFinished`
-- **[roadmap.md](./roadmap.md)** — phase status
