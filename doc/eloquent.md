@@ -50,3 +50,16 @@ public static function vectorEmbeddingSyncMode(): string
 ```
 
 ---
+
+## Lifecycle
+
+| Event | Action |
+|-------|--------|
+| `created` | Upsert vector (unless `shouldSyncVectorEmbedding()` is false). |
+| `updated` | Upsert only if an embedding field changed. |
+| `deleted` | Delete vector id (soft or hard delete). |
+| `restored` | Re-upsert (soft deletes only). |
+
+Empty embedding text runs a **delete** instead of upserting.
+
+---
