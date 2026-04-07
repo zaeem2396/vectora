@@ -51,3 +51,4 @@ You can enable both independently.
 - **[dx.md](./dx.md)** — debug logging and query cache
 - **[laravel.md](./laravel.md)** — service provider and facade
 - **[ingestion.md](./ingestion.md)** — Phase 9 jobs dispatch **`VectorSynced`** / **`VectorFailed`** for `ingest_upsert` (same as other vector jobs)
+- **[search.md](./search.md)** — Phase 10 advanced search reuses the same vector **`query()`** path (cache/metrics apply as today)
