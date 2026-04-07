@@ -98,3 +98,4 @@ doc/
 | [multi-backend.md](./multi-backend.md) | Phase 7: alternate vector stores, `VectorStoreManager`, per-model driver |
 | [rag.md](./rag.md) | Phase 8: RAG pipeline, LLM drivers, streaming, conversation memory |
 | [ingestion.md](./ingestion.md) | Phase 9: chunking, file/web ingestion, `Vector::ingest()`, queue jobs |
+| [search.md](./search.md) | Phase 10: advanced search, hybrid boost, facets, `pinecone.search` config |
