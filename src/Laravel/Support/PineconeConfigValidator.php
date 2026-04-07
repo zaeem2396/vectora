@@ -99,5 +99,10 @@ final class PineconeConfigValidator
         if (isset($search['default_fetch_top_k']) && (int) $search['default_fetch_top_k'] < 1) {
             throw new \InvalidArgumentException('pinecone.search.default_fetch_top_k must be at least 1.');
         }
+
+        $dx = $config['dx'] ?? [];
+        if ($dx !== [] && ! is_array($dx)) {
+            throw new \InvalidArgumentException('pinecone.dx must be an array.');
+        }
     }
 }
