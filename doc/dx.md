@@ -92,3 +92,8 @@ Calling **`semanticOrderBy`** after a matching **`semanticWhere`** uses **`reord
 | Key | Purpose |
 |-----|---------|
 | **`pinecone.dx.semantic_debug`** | Enable **`pinecone:semantic-debug`** (default `false`; use env **`VECTORA_SEMANTIC_DEBUG`**). |
+
+### Errors
+
+Invalid **`topK`** on **`semanticSearch()`** / semantic builder methods throws **`SemanticSearchInvalidArgumentException`** with a short, actionable message instead of a bare **`InvalidArgumentException`**.
+
