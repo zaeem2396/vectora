@@ -1,10 +1,12 @@
 # 🚀 Vectora — Roadmap (Laravel + Pinecone)
 
+**Phase 12 (Observability 2.0) is complete** — every item in the Phase 12 table below is 🟢 Done. A 🔴 Pending badge elsewhere in this file refers only to **Future / Advanced** backlog ideas (not Phase 12).
+
 ## Status Legend
 
 * 🟢 Done
 * 🟡 In Progress
-* 🔴 Pending
+* 🔴 Pending (only used in **Future / Advanced** for ideas not yet scheduled)
 
 ---
 
@@ -207,14 +209,17 @@ Status: **complete** (see **[observability.md](./observability.md)** Phase 12 se
 
 ## Future / Advanced
 
+Cross-phase reminders and **optional backlog** items. Completed work is covered in the numbered phases above; this section is mainly for **what could come next**.
+
 | Module        | Sub-module / Task            | Status     |
 | ------------- | ---------------------------- | ---------- |
 | Multi-backend | Qdrant / Weaviate / pgvector | 🟢 Done (Phase 7) |
-| Abstraction   | Scout-style engine           | 🔴 Pending |
 | Search        | Hybrid + reranking           | 🟢 Done (Phase 10) |
 | AI            | Full RAG pipeline            | 🟢 Done (Phase 8 baseline) |
 | Ingestion     | File + chunking pipeline     | 🟢 Done (Phase 9) |
-| Observability | Cost + tracing + metrics     | 🟢 Done (Phase 12) |
+| Abstraction   | Scout-style vector engine (see note below) | 🔴 Pending |
+
+**Scout-style engine (backlog):** A possible future layer inspired by Laravel [Scout](https://laravel.com/docs/scout)—a driver registry so vector search could be swapped or multiplexed from config (comparable to how Scout swaps Algolia, Meilisearch, database, etc.). Vectora already has `VectorStoreManager` and per-model drivers; this row would mean a *Scout-like* Eloquent-facing API on top of that. **Not started.** Unrelated to Phase 12 (Observability 2.0), which is complete.
 
 ---
 
