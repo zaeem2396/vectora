@@ -68,4 +68,5 @@ Stores that implement **`ProvidesVectorStoreCapabilities`** expose **`vectorStor
 - **[eloquent.md](./eloquent.md)** — `HasEmbeddings`, sync modes  
 - **[core.md](./core.md)** — framework-agnostic `VectorStoreContract` usage  
 - **[ingestion.md](./ingestion.md)** — chunking, extractors, `IngestUpsertJob`
-- **[search.md](./search.md)** — `Pinecone::advancedSearch()` uses the same `VectorStoreManager` drivers  
+- **[search.md](./search.md)** — `Pinecone::advancedSearch()` uses the same `VectorStoreManager` drivers
+- **[dx.md](./dx.md)** — Phase 11: `semanticWhere()` uses the same vector queries as Eloquent sync  

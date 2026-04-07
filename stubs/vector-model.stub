@@ -1,0 +1,20 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use Vectora\Pinecone\Eloquent\AbstractEmbeddableModel;
+
+class {{ class }} extends AbstractEmbeddableModel
+{
+    /**
+     * Database columns that feed the embedding text (change to match your schema).
+     *
+     * @return list<string>
+     */
+    public static function vectorEmbeddingFields(): array
+    {
+        return ['title', 'body'];
+    }
+}

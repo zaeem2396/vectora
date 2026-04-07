@@ -119,4 +119,14 @@ final class PineconeConfigValidatorTest extends TestCase
             'llm' => ['default' => 'unknown-llm', 'drivers' => []],
         ]);
     }
+
+    public function test_rejects_non_array_dx_section(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('pinecone.dx must be an array');
+        PineconeConfigValidator::validate([
+            'http' => ['timeout' => 1, 'connect_timeout' => 1, 'retries' => 1],
+            'dx' => 'invalid',
+        ]);
+    }
 }

@@ -17,4 +17,4 @@ composer format       # fix style
 composer test         # PHPUnit
 ```
 
-CI installs dependencies with `composer update` (no committed lockfile). PHPUnit includes **ingestion** (`tests/Unit/Ingestion`, `IngestionBuilderTest`) and **advanced search** (`tests/Unit/Search`, `AdvancedSearchBuilderTest`).
+CI installs dependencies with `composer update` (no committed lockfile). PHPUnit includes **ingestion** (`tests/Unit/Ingestion`, `IngestionBuilderTest`), **advanced search** (`tests/Unit/Search`, `AdvancedSearchBuilderTest`), and **Phase 11 DX** (`SemanticEloquentBuilderTest`, `SemanticDebugCommandTest`, `MakeVectorModelCommandTest`, attribute/cast unit tests).

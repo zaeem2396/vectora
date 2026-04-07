@@ -95,4 +95,6 @@ Implement **`RagRetrieverContract`** or **`LLMDriver`**, bind your implementatio
 
 **Phase 10 (retrieval quality):** tune hybrid keyword boost, reranking, and facets with **`Pinecone::advancedSearch()`** — see **[search.md](./search.md)**.
 
-See **[roadmap.md](./roadmap.md)** for Phase 11+ (DX 2.0).
+**Phase 11 (Eloquent DX):** compose SQL filters with **`semanticWhere()`** / **`semanticOrderBy()`** — see **[eloquent.md](./eloquent.md)** and **[dx.md](./dx.md)**.
+
+See **[roadmap.md](./roadmap.md)** for Phase 12+ (Observability 2.0).

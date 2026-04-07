@@ -1,6 +1,6 @@
 # Developer experience & hardening
 
-This page summarizes **Phase 5** features: query caching, HTTP debug logging, config validation at boot, and **`ApiException`** error classification for application-level handling.
+This page summarizes **Phase 5** features (query caching, HTTP debug logging, config validation, **`ApiException`**) and **Phase 11** (semantic Eloquent builder, **`#[EmbeddingColumns]`**, Artisan commands, clearer semantic errors).
 
 ---
 
@@ -56,10 +56,54 @@ Use these in listeners or `VectorFailed` handlers to branch on failure type with
 
 ---
 
+## Phase 11 — DX 2.0 (semantic Eloquent, attributes, casts, artisan)
+
+Phase 11 builds on **`HasEmbeddings`**: a **`SemanticEloquentBuilder`** (via `Model::query()` on embeddable models), **PHP 8 attributes** for embedding columns and optional index name, a **concatenation cast** for virtual embedding text, Artisan **`make:vector-model`** / **`pinecone:semantic-debug`**, **`pinecone.dx`** config, and **`SemanticSearchInvalidArgumentException`** for clearer invalid-argument failures.
+
+### Semantic query builder
+
+On **`Embeddable`** models, `newQuery()` returns **`SemanticEloquentBuilder`**:
+
+- **`semanticWhere($queryText, $topK = 10, $additionalFilter = null)`** — runs the same vector query as **`Embeddable::semanticSearch()`**, restricts SQL rows with **`WHERE id IN (...)`**, and orders by similarity (MySQL **`FIELD()`**; other drivers use a **`CASE`** expression).
+- **`semanticOrderBy(...)`** — if the last **`semanticWhere`** used the same text, topK, and filter, **re-applies** similarity ordering only (no second vector API call). Otherwise it behaves like **`semanticWhere`**.
+
+Compose with normal Eloquent **`where`**: `Article::query()->where('published', true)->semanticWhere('Laravel queues', 20)`.
+
+Calling **`semanticOrderBy`** after a matching **`semanticWhere`** uses **`reorder()`** before applying similarity order, which clears prior **`orderBy`** clauses — put **`semanticWhere`** first, then add secondary ordering if needed.
+
+### Attributes and defaults
+
+- **`#[EmbeddingColumns(columns: ['title', 'body'])]`** on the model class — **HasEmbeddings** resolves **`vectorEmbeddingFields()`** from this attribute when you do **not** override **`vectorEmbeddingFields()`** manually.
+- **`#[VectorEmbeddingIndexName('logical-index')]`** — optional; feeds **`vectorEmbeddingIndex()`** when not overridden.
+
+### Concat embedding cast
+
+**`ConcatEmbeddingTextCast`** implements **`Castable`** and **`CastsAttributes`**: use a virtual column in **`$casts`** (e.g.  `'embedding_text' => ConcatEmbeddingTextCast::class.':title,body'`) and point **`vectorEmbeddingFields()`** at **`embedding_text`** only.
+
+### Artisan
+
+| Command | Purpose |
+|--------|---------|
+| **`php artisan make:vector-model Post`** | Scaffold **`AbstractEmbeddableModel`** with **`vectorEmbeddingFields()`** stub. |
+| **`php artisan pinecone:semantic-debug "App\Models\Post" "your query"`** | Prints JSON match summary; requires **`pinecone.dx.semantic_debug`** / **`VECTORA_SEMANTIC_DEBUG=true`**. |
+
+### Config
+
+| Key | Purpose |
+|-----|---------|
+| **`pinecone.dx.semantic_debug`** | Enable **`pinecone:semantic-debug`** (default `false`; use env **`VECTORA_SEMANTIC_DEBUG`**). |
+
+### Errors
+
+Invalid **`topK`** on **`semanticSearch()`** / semantic builder methods throws **`SemanticSearchInvalidArgumentException`** with a short, actionable message instead of a bare **`InvalidArgumentException`**.
+
+---
+
 ## Related docs
 
 - **[installation.md](./installation.md)** — environment variables
 - **[laravel.md](./laravel.md)** — service provider, facade, jobs
+- **[eloquent.md](./eloquent.md)** — Phase 4 & 11: `HasEmbeddings`, semantic builder, attributes, cast
 - **[ingestion.md](./ingestion.md)** — Phase 9 `Vector::ingest()` and chunk defaults
 - **[search.md](./search.md)** — Phase 10 `Pinecone::advancedSearch()` and `pinecone.search` validation
 - **[observability.md](./observability.md)** — Phase 6 HTTP metrics and `PineconeHttpRequestFinished`

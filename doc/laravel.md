@@ -38,6 +38,10 @@ See **[ingestion.md](./ingestion.md)** for chunking strategies, extractors, and 
 
 See **[search.md](./search.md)**.
 
+## Developer experience (Phase 11)
+
+Embeddable models use **`SemanticEloquentBuilder`** (`semanticWhere` / `semanticOrderBy`). Artisan: **`php artisan make:vector-model YourModel`**, **`php artisan pinecone:semantic-debug YourModel "query"`** (requires **`pinecone.dx.semantic_debug`**). See **[dx.md](./dx.md)** and **[eloquent.md](./eloquent.md)**.
+
 ## Multi-index configuration
 
 `config/pinecone.php` supports named connections under `indexes`, with `default` selecting which name `Pinecone::connection()` uses when no argument is passed.

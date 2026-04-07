@@ -13,8 +13,10 @@ use Vectora\Pinecone\Core\VectorStore\LocalMemoryVectorStore;
 use Vectora\Pinecone\Ingestion\ExtractorRegistry;
 use Vectora\Pinecone\Ingestion\Http\GuzzleUrlReader;
 use Vectora\Pinecone\Ingestion\IngestionPipeline;
+use Vectora\Pinecone\Laravel\Commands\MakeVectorModelCommand;
 use Vectora\Pinecone\Laravel\Commands\PineconeFlushCommand;
 use Vectora\Pinecone\Laravel\Commands\PineconeSyncCommand;
+use Vectora\Pinecone\Laravel\Commands\SemanticDebugCommand;
 use Vectora\Pinecone\Laravel\Embeddings\EmbeddingDriverFactory;
 use Vectora\Pinecone\Laravel\Embeddings\EmbeddingManager;
 use Vectora\Pinecone\Laravel\Embeddings\LLMDriverFactory;
@@ -111,6 +113,8 @@ class PineconeServiceProvider extends ServiceProvider
         $this->commands([
             PineconeFlushCommand::class,
             PineconeSyncCommand::class,
+            MakeVectorModelCommand::class,
+            SemanticDebugCommand::class,
         ]);
     }
 }

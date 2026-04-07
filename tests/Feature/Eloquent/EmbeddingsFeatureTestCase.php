@@ -45,6 +45,7 @@ abstract class EmbeddingsFeatureTestCase extends PineconeFeatureTestCase
         $this->embeddingsSchemaCreated = true;
 
         $this->recordingStore = new RecordingVectorStore;
+        $this->recordingStore->queryCallCount = 0;
         $this->instance(PineconeClientFactory::class, new FixedVectorStorePineconeClientFactory(
             $this->app,
             $this->recordingStore,

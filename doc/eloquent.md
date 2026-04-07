@@ -1,4 +1,4 @@
-# Eloquent integration (Phase 4)
+# Eloquent integration (Phase 4 & Phase 11)
 
 Models implement **`Embeddable`** and use **`HasEmbeddings`** to keep Pinecone vectors aligned with rows: create/update/delete (including soft delete) and optional **queued** sync.
 
@@ -23,9 +23,11 @@ final class Article extends AbstractEmbeddableModel
 
 Alternatively, `implements Embeddable` and `use HasEmbeddings` on any `Model` subclass.
 
+**Phase 11:** declare columns with **`#[EmbeddingColumns(columns: ['title', 'body'])]`** on the class and **omit** a manual **`vectorEmbeddingFields()`** override, or keep the explicit method — see **[dx.md](./dx.md)**.
+
 - **`vectorEmbeddingFields()`** — attributes that feed `vectorEmbeddingText()` (newline-joined) and that trigger a re-upsert when changed.
 - Override **`vectorEmbeddingMetadata()`** to add Pinecone metadata (merged with defaults `vectora_model`, `vectora_key`).
-- Override **`vectorEmbeddingIndex()`** / **`vectorEmbeddingNamespace()`** for multi-index setups (static methods; `null` = config default).
+- Override **`vectorEmbeddingIndex()`** / **`vectorEmbeddingNamespace()`** for multi-index setups (static methods; `null` = config default). Optional **`#[VectorEmbeddingIndexName('posts')]`** covers the index name when you prefer attributes over overrides.
 - Override **`vectorEmbeddingStoreDriver()`** to target a non-default **`pinecone.vector_store`** driver (`memory`, `sqlite`, etc.); `null` uses the global default (see **[multi-backend.md](./multi-backend.md)**).
 - **`Article::rag()`** — fluent RAG entry (retrieve + LLM); same options as **`Vector::using(Article::class)`** (see **[rag.md](./rag.md)**).
 
@@ -71,7 +73,31 @@ $models = Article::semanticSearchModels('why is the sky blue');
 
 Default metadata filter: `{ "vectora_model": Article::class }`. Return **`null`** from **`semanticSearchMetadataFilter()`** to search the whole namespace. Combine with an extra filter via the `$additionalFilter` argument (`$and` is built for you).
 
+### Phase 11 — `semanticWhere()` / `semanticOrderBy()` (Eloquent builder)
+
+`Model::query()` on an embeddable model returns **`SemanticEloquentBuilder`**:
+
+```php
+$published = Article::query()
+    ->where('published', true)
+    ->semanticWhere('async PHP patterns', topK: 25)
+    ->get();
+```
+
+Invalid **`topK`** throws **`Vectora\Pinecone\Laravel\Exceptions\SemanticSearchInvalidArgumentException`**.
+
+### Virtual embedding text via cast (Phase 11)
+
+Use **`Vectora\Pinecone\Eloquent\Casts\ConcatEmbeddingTextCast`** so a single virtual attribute mirrors multiple columns; list that attribute in **`vectorEmbeddingFields()`**. See **[dx.md](./dx.md)**.
+
+### Scaffold (Phase 11)
+
+```bash
+php artisan make:vector-model Article
+```
+
 ---
+
 
 ## Batch indexing
 
@@ -86,7 +112,8 @@ In **`sync`** mode, batch upserts use **`embedMany()`** + a single Pinecone upse
 
 ## See also
 
-- [roadmap.md](./roadmap.md) — Phase 4 checklist  
+- [dx.md](./dx.md) — Phase 5 & 11: query cache, semantic debug command, attributes  
+- [roadmap.md](./roadmap.md) — Phase 4 / 11 checklist  
 - [embeddings.md](./embeddings.md) — embedding drivers  
 - [laravel.md](./laravel.md) — jobs, config, facade  
 - [ingestion.md](./ingestion.md) — Phase 9: bulk ingest paths that are not tied to a single Eloquent row  

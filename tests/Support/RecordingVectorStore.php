@@ -26,6 +26,8 @@ final class RecordingVectorStore implements VectorStoreContract
     /** @var list<QueryVectorMatch> */
     public array $queryMatches = [];
 
+    public int $queryCallCount = 0;
+
     public function upsert(UpsertVectorsRequest $request): UpsertResult
     {
         $this->upsertRequests[] = $request;
@@ -36,6 +38,7 @@ final class RecordingVectorStore implements VectorStoreContract
     public function query(QueryVectorsRequest $request): QueryVectorsResult
     {
         $this->lastQueryRequest = $request;
+        $this->queryCallCount++;
 
         return new QueryVectorsResult($this->queryMatches, $request->namespace, null);
     }

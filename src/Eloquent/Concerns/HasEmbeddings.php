@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Vectora\Pinecone\Eloquent\Concerns;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Collection;
+use LogicException;
 use Vectora\Pinecone\Contracts\Embeddable;
 use Vectora\Pinecone\Contracts\EmbeddingDriver;
 use Vectora\Pinecone\DTO\DeleteVectorsRequest;
@@ -13,7 +16,11 @@ use Vectora\Pinecone\DTO\QueryVectorsRequest;
 use Vectora\Pinecone\DTO\QueryVectorsResult;
 use Vectora\Pinecone\DTO\UpsertVectorsRequest;
 use Vectora\Pinecone\DTO\VectorRecord;
+use Vectora\Pinecone\Eloquent\Attributes\EmbeddingColumns;
+use Vectora\Pinecone\Eloquent\Attributes\VectorEmbeddingIndexName;
+use Vectora\Pinecone\Eloquent\SemanticEloquentBuilder;
 use Vectora\Pinecone\Eloquent\SemanticFilter;
+use Vectora\Pinecone\Laravel\Exceptions\SemanticSearchInvalidArgumentException;
 use Vectora\Pinecone\Laravel\Jobs\DeleteVectorsJob;
 use Vectora\Pinecone\Laravel\Jobs\SyncModelEmbeddingJob;
 use Vectora\Pinecone\Laravel\Rag\RagQueryBuilder;
@@ -28,6 +35,15 @@ use Vectora\Pinecone\Laravel\VectorStoreManager;
 trait HasEmbeddings
 {
     use HandlesVectorEmbeddingBatch;
+
+    /**
+     * @param  QueryBuilder  $query
+     * @return SemanticEloquentBuilder
+     */
+    public function newEloquentBuilder($query): Builder
+    {
+        return new SemanticEloquentBuilder($query);
+    }
 
     public static function bootHasEmbeddings(): void
     {
@@ -66,7 +82,18 @@ trait HasEmbeddings
     /**
      * @return list<string>
      */
-    abstract public static function vectorEmbeddingFields(): array;
+    public static function vectorEmbeddingFields(): array
+    {
+        $fromAttr = EmbeddingColumns::read(static::class);
+        if ($fromAttr !== []) {
+            return $fromAttr;
+        }
+
+        throw new LogicException(
+            'Define embedding columns: add #[EmbeddingColumns(columns: [...])] on '.static::class
+            .' or implement vectorEmbeddingFields() in your model.'
+        );
+    }
 
     public function vectorEmbeddingText(): string
     {
@@ -96,7 +123,7 @@ trait HasEmbeddings
 
     public static function vectorEmbeddingIndex(): ?string
     {
-        return null;
+        return VectorEmbeddingIndexName::read(static::class);
     }
 
     public static function vectorEmbeddingNamespace(): ?string
@@ -178,7 +205,7 @@ trait HasEmbeddings
     public static function semanticSearch(string $query, int $topK = 10, ?array $additionalFilter = null): QueryVectorsResult
     {
         if ($topK < 1) {
-            throw new \InvalidArgumentException('topK must be at least 1.');
+            throw SemanticSearchInvalidArgumentException::topKTooLow();
         }
 
         $driver = app(EmbeddingDriver::class);

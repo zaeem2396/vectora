@@ -44,6 +44,7 @@ The package is split so **vector storage is abstract** and **Laravel is optional
 | **RAG (Phase 8)** | `RagPipeline`, `LLMDriver`, `Vector` facade / `Model::rag()` over `Embeddable` search. |
 | **Ingestion (Phase 9)** | Chunking, file/HTML/URL extractors, `IngestionPipeline`, `Vector::ingest()`, `IngestUpsertJob`. |
 | **Search (Phase 10)** | `Pinecone::advancedSearch()`, hybrid keyword boost, rerankers, facets, pagination, score normalization, optional sparse/hybrid query fields. |
+| **DX (Phase 11)** | `semanticWhere` / `semanticOrderBy`, `#[EmbeddingColumns]`, `make:vector-model`, `pinecone:semantic-debug`, concat embedding cast. |
 | **Jobs / Commands** | Async and operational surfaces (`pinecone:sync`, `pinecone:flush`). |
 
 ### Data flow (RAG / semantic search)
@@ -70,8 +71,8 @@ src/
   DTO/            # Request/response value objects, IngestedChunk
   Ingestion/      # Phase 9: chunking, extractors, pipeline, URL fetch
   Search/         # Phase 10: score normalization, rerankers, facets, filter helpers
-  Laravel/        # ServiceProvider, Facade, IngestionBuilder, AdvancedSearchBuilder, RAG
-  Eloquent/       # HasEmbeddings trait, searchable scope
+  Eloquent/       # HasEmbeddings, SemanticEloquentBuilder, attributes, casts (Phase 11)
+  Laravel/        # ServiceProvider, Facade, IngestionBuilder, AdvancedSearchBuilder, RAG, DX commands
   Jobs/           # UpsertModelEmbedding, IngestUpsertJob, …
   Commands/       # pinecone:sync, pinecone:flush
 config/
@@ -92,8 +93,8 @@ doc/
 | [core.md](./core.md) | Phase 1: PSR-18 core client usage |
 | [laravel.md](./laravel.md) | Phase 2: service provider, jobs, commands |
 | [embeddings.md](./embeddings.md) | Phase 3: EmbeddingDriver, OpenAI, cache |
-| [eloquent.md](./eloquent.md) | Phase 4: HasEmbeddings, semantic search, batch |
-| [dx.md](./dx.md) | Phase 5: query cache, debug logging, config validation, error classification |
+| [eloquent.md](./eloquent.md) | Phase 4 & 11: HasEmbeddings, semantic search, `semanticWhere`, attributes, casts |
+| [dx.md](./dx.md) | Phase 5 & 11: query cache, semantic builder, attributes, artisan debug, config validation |
 | [observability.md](./observability.md) | Phase 6: HTTP metrics, correlation id, Laravel events |
 | [multi-backend.md](./multi-backend.md) | Phase 7: alternate vector stores, `VectorStoreManager`, per-model driver |
 | [rag.md](./rag.md) | Phase 8: RAG pipeline, LLM drivers, streaming, conversation memory |
