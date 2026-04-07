@@ -29,7 +29,10 @@ final class SemanticDebugCommandTest extends EmbeddingsFeatureTestCase
         $this->assertSame(0, $exit);
         $out = Artisan::output();
         $this->assertStringContainsString('"query": "hello world"', $out);
-        $this->assertStringContainsString(EmbeddableArticle::class, $out);
+        $decoded = json_decode($out, true, 512, JSON_THROW_ON_ERROR);
+        $this->assertSame(EmbeddableArticle::class, $decoded['model']);
+        $this->assertSame('hello world', $decoded['query']);
+        $this->assertSame(3, $decoded['topK']);
     }
 
     public function test_fails_when_semantic_debug_disabled(): void
