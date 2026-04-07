@@ -76,3 +76,7 @@ Calling **`semanticOrderBy`** after a matching **`semanticWhere`** uses **`reord
 - **`#[EmbeddingColumns(columns: ['title', 'body'])]`** on the model class — **HasEmbeddings** resolves **`vectorEmbeddingFields()`** from this attribute when you do **not** override **`vectorEmbeddingFields()`** manually.
 - **`#[VectorEmbeddingIndexName('logical-index')]`** — optional; feeds **`vectorEmbeddingIndex()`** when not overridden.
 
+### Concat embedding cast
+
+**`ConcatEmbeddingTextCast`** implements **`Castable`** and **`CastsAttributes`**: use a virtual column in **`$casts`** (e.g.  `'embedding_text' => ConcatEmbeddingTextCast::class.':title,body'`) and point **`vectorEmbeddingFields()`** at **`embedding_text`** only.
+
