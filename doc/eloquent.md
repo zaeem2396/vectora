@@ -90,3 +90,4 @@ In **`sync`** mode, batch upserts use **`embedMany()`** + a single Pinecone upse
 - [embeddings.md](./embeddings.md) — embedding drivers  
 - [laravel.md](./laravel.md) — jobs, config, facade  
 - [ingestion.md](./ingestion.md) — Phase 9: bulk ingest paths that are not tied to a single Eloquent row  
+- [search.md](./search.md) — Phase 10: `advancedSearch()` as an alternative entry point to raw `semanticSearch()`  
