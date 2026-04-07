@@ -95,7 +95,7 @@ doc/
 | [embeddings.md](./embeddings.md) | Phase 3: EmbeddingDriver, OpenAI, cache |
 | [eloquent.md](./eloquent.md) | Phase 4 & 11: HasEmbeddings, semantic search, `semanticWhere`, attributes, casts |
 | [dx.md](./dx.md) | Phase 5 & 11: query cache, semantic builder, attributes, artisan debug, config validation |
-| [observability.md](./observability.md) | Phase 6: HTTP metrics, correlation id, Laravel events |
+| [observability.md](./observability.md) | Phase 6 HTTP metrics; Phase 12 trace correlation, embedding/LLM events, cost estimates |
 | [multi-backend.md](./multi-backend.md) | Phase 7: alternate vector stores, `VectorStoreManager`, per-model driver |
 | [rag.md](./rag.md) | Phase 8: RAG pipeline, LLM drivers, streaming, conversation memory |
 | [ingestion.md](./ingestion.md) | Phase 9: chunking, file/web ingestion, `Vector::ingest()`, queue jobs |
