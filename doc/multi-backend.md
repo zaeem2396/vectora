@@ -67,4 +67,5 @@ Stores that implement **`ProvidesVectorStoreCapabilities`** expose **`vectorStor
 - **[laravel.md](./laravel.md)** — facade, jobs, manager usage  
 - **[eloquent.md](./eloquent.md)** — `HasEmbeddings`, sync modes  
 - **[core.md](./core.md)** — framework-agnostic `VectorStoreContract` usage  
-- **[ingestion.md](./ingestion.md)** — chunking, extractors, `IngestUpsertJob`  
+- **[ingestion.md](./ingestion.md)** — chunking, extractors, `IngestUpsertJob`
+- **[search.md](./search.md)** — `Pinecone::advancedSearch()` uses the same `VectorStoreManager` drivers  
