@@ -97,4 +97,4 @@ Implement **`RagRetrieverContract`** or **`LLMDriver`**, bind your implementatio
 
 **Phase 11 (Eloquent DX):** compose SQL filters with **`semanticWhere()`** / **`semanticOrderBy()`** — see **[eloquent.md](./eloquent.md)** and **[dx.md](./dx.md)**.
 
-See **[roadmap.md](./roadmap.md)** for Phase 12+ (Observability 2.0).
+See **[observability.md](./observability.md)** (Phase 12) for **`LlmCallFinished`** on non-streaming chat and **[roadmap.md](./roadmap.md)** for later phases.
