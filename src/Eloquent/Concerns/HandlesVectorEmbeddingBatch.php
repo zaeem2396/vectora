@@ -11,6 +11,7 @@ use Vectora\Pinecone\Contracts\Embeddable;
 use Vectora\Pinecone\Contracts\EmbeddingDriver;
 use Vectora\Pinecone\DTO\UpsertVectorsRequest;
 use Vectora\Pinecone\DTO\VectorRecord;
+use Vectora\Pinecone\Eloquent\SemanticEloquentBuilder;
 use Vectora\Pinecone\Laravel\VectorStoreManager;
 
 /**
@@ -21,7 +22,7 @@ use Vectora\Pinecone\Laravel\VectorStoreManager;
 trait HandlesVectorEmbeddingBatch
 {
     /**
-     * @param  iterable<int, Model&Embeddable>|Collection<int, Model&Embeddable>  $models
+     * @param  iterable<int, Model>|Collection<int, Model>  $models
      */
     public static function upsertVectorEmbeddingsForModels(iterable $models): void
     {
@@ -46,7 +47,7 @@ trait HandlesVectorEmbeddingBatch
     }
 
     /**
-     * @param  \Closure(Builder<static>): Builder<static>|null  $scope
+     * @param  \Closure(Builder<static>|SemanticEloquentBuilder): (Builder<static>|SemanticEloquentBuilder)|null  $scope
      */
     public static function reindexAllEmbeddings(int $chunkSize = 100, ?\Closure $scope = null): int
     {
