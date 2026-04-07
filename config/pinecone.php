@@ -273,4 +273,16 @@ return [
     'eloquent' => [
         'default_sync' => env('PINECONE_ELOQUENT_SYNC', 'queued'),
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Developer experience (Phase 11 — DX 2.0)
+    |--------------------------------------------------------------------------
+    |
+    | Optional tooling: semantic debug command, generators, and clearer errors.
+    |
+    */
+    'dx' => [
+        'semantic_debug' => filter_var(env('VECTORA_SEMANTIC_DEBUG', false), FILTER_VALIDATE_BOOL),
+    ],
 ];
