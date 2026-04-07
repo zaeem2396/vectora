@@ -92,3 +92,4 @@ When `embeddings.cache.enabled` is true, **`EmbeddingManager`** wraps the resolv
 - [roadmap.md](./roadmap.md) — Phase 3 checklist  
 - [laravel.md](./laravel.md) — Service provider & facade  
 - [ingestion.md](./ingestion.md) — Phase 9: `Vector::ingest()` uses the same embedding drivers for bulk document indexing  
+- [search.md](./search.md) — Phase 10: `Pinecone::advancedSearch()` embeds the user query the same way  
