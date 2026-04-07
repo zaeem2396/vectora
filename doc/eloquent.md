@@ -32,3 +32,21 @@ Alternatively, `implements Embeddable` and `use HasEmbeddings` on any `Model` su
 - **`Article::rag()`** — fluent RAG entry (retrieve + LLM); same options as **`Vector::using(Article::class)`** (see **[rag.md](./rag.md)**).
 
 ---
+
+## Sync mode
+
+| Source | Behaviour |
+|--------|-----------|
+| `PINECONE_ELOQUENT_SYNC=sync` (or `config('pinecone.eloquent.default_sync')`) | Upsert/delete inline during model events. |
+| `queued` | Dispatches **`SyncModelEmbeddingJob`** (upsert) and **`DeleteVectorsJob`** (delete). |
+
+Per model:
+
+```php
+public static function vectorEmbeddingSyncMode(): string
+{
+    return 'sync';
+}
+```
+
+---
