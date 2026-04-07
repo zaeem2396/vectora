@@ -55,6 +55,15 @@ final readonly class QueryVectorsRequest
         if ($this->filter !== null && $this->filter !== []) {
             $body['filter'] = $this->filter;
         }
+        if ($this->sparseVector !== null && $this->sparseVector !== []) {
+            $body['sparseVector'] = $this->sparseVector;
+        }
+        if ($this->hybridAlpha !== null) {
+            $body['alpha'] = $this->hybridAlpha;
+        }
+        if ($this->paginationToken !== null && $this->paginationToken !== '') {
+            $body['paginationToken'] = $this->paginationToken;
+        }
 
         return $body;
     }
