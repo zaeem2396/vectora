@@ -94,6 +94,9 @@ Common optional keys (see published `config/pinecone.php` for the full list):
 | `PINECONE_QUERY_CACHE` | Cache `query()` results via Laravel cache (see **[dx.md](./dx.md)**) |
 | `PINECONE_DEBUG` | Verbose truncated HTTP body logging (development only) |
 | `PINECONE_METRICS` | Dispatch `PineconeHttpRequestFinished` per HTTP call (see **[observability.md](./observability.md)**) |
+| `VECTORA_OBSERVABILITY_V2` | Phase 12: enable trace-aware embedding/LLM events and cost estimates (see **[observability.md](./observability.md)**) |
+| `VECTORA_OBSERVABILITY_V2_EMBEDDING_EVENTS` | When observability v2 is on, dispatch `EmbeddingCallFinished` (default true) |
+| `VECTORA_OBSERVABILITY_V2_LLM_EVENTS` | When observability v2 is on, dispatch `LlmCallFinished` for non-streaming chat (default true) |
 | `VECTORA_VECTOR_STORE_DRIVER` | Default vector backend: `pinecone`, `memory`, `sqlite`, `qdrant`, `weaviate`, `pgvector` (see **[multi-backend.md](./multi-backend.md)**) |
 | `VECTORA_LLM_DRIVER` | RAG chat driver: `stub` (default) or `openai` (see **[rag.md](./rag.md)**) |
 | `OPENAI_CHAT_MODEL` | Chat Completions model when using the OpenAI LLM driver (default `gpt-4o-mini`) |
@@ -106,7 +109,7 @@ Common optional keys (see published `config/pinecone.php` for the full list):
 
 **DX / hardening:** see **[dx.md](./dx.md)** for query cache keys, debug options, config validation, and `ApiException` classification.
 
-**Observability:** see **[observability.md](./observability.md)** for metrics events and correlation ids.
+**Observability:** see **[observability.md](./observability.md)** for HTTP metrics (Phase 6), trace correlation, embedding/LLM events, and rough cost estimates (Phase 12).
 
 ---
 
