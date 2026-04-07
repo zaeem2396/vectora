@@ -78,6 +78,14 @@ PINECONE_DEBUG=true
 PINECONE_LOG_REQUESTS=true
 ```
 
+**Observability 2.0 (Phase 12)** — correlate traces and estimate embedding/LLM cost (optional):
+
+```env
+VECTORA_OBSERVABILITY_V2=true
+```
+
+Use `VectorOperationTrace::begin()` in middleware or jobs; see **[doc/observability.md](doc/observability.md)**.
+
 **Handle errors by category** after catching `Vectora\Pinecone\Core\Exception\ApiException`:
 
 ```php
