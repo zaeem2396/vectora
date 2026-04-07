@@ -16,6 +16,7 @@ use Vectora\Pinecone\Laravel\PineconeManager;
  * @method static EmbeddingDriver embeddings(?string $driver = null)
  * @method static list<float> embed(string $text)
  * @method static list<list<float>> embedMany(list<string> $texts)
+ * @method static \Vectora\Pinecone\Laravel\Search\AdvancedSearchBuilder advancedSearch(?string $index = null, ?string $embeddingDriver = null)
  * @method static mixed config(?string $key = null, mixed $default = null)
  *
  * @see PineconeManager
