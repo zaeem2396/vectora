@@ -97,3 +97,24 @@ php artisan make:vector-model Article
 ```
 
 ---
+
+
+## Batch indexing
+
+```php
+Article::upsertVectorEmbeddingsForModels($collection);
+Article::reindexAllEmbeddings(chunkSize: 100, scope: fn ($q) => $q->where('published', true));
+```
+
+In **`sync`** mode, batch upserts use **`embedMany()`** + a single Pinecone upsert per chunk. In **`queued`** mode, each model dispatches its own **`SyncModelEmbeddingJob`**.
+
+---
+
+## See also
+
+- [dx.md](./dx.md) — Phase 5 & 11: query cache, semantic debug command, attributes  
+- [roadmap.md](./roadmap.md) — Phase 4 / 11 checklist  
+- [embeddings.md](./embeddings.md) — embedding drivers  
+- [laravel.md](./laravel.md) — jobs, config, facade  
+- [ingestion.md](./ingestion.md) — Phase 9: bulk ingest paths that are not tied to a single Eloquent row  
+- [search.md](./search.md) — Phase 10: `advancedSearch()` as an alternative entry point to raw `semanticSearch()`  
