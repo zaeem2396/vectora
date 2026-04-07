@@ -88,3 +88,12 @@ Invalid **`topK`** throws **`Vectora\Pinecone\Laravel\Exceptions\SemanticSearchI
 
 ### Virtual embedding text via cast (Phase 11)
 
+Use **`Vectora\Pinecone\Eloquent\Casts\ConcatEmbeddingTextCast`** so a single virtual attribute mirrors multiple columns; list that attribute in **`vectorEmbeddingFields()`**. See **[dx.md](./dx.md)**.
+
+### Scaffold (Phase 11)
+
+```bash
+php artisan make:vector-model Article
+```
+
+---
