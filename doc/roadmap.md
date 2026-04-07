@@ -176,15 +176,17 @@ Status: **complete** (see **[search.md](./search.md)**).
 
 ## Phase 11 — Developer Experience (DX 2.0)
 
-| Module | Sub-module / Task                        | Status     |
-| ------ | ---------------------------------------- | ---------- |
-| DX     | Eloquent-first semantic API improvements | 🔴 Pending |
-| DX     | `semanticWhere()` / `semanticOrderBy()`  | 🔴 Pending |
-| DX     | Auto-vectorization via casting           | 🔴 Pending |
-| DX     | PHP attribute-based config               | 🔴 Pending |
-| DX     | CLI generators (`make:vector-model`)     | 🔴 Pending |
-| DX     | Debug / playground tools                 | 🔴 Pending |
-| DX     | Improved developer error messages        | 🔴 Pending |
+Status: **complete** (see **[dx.md](./dx.md)** Phase 11 section and **[eloquent.md](./eloquent.md)**).
+
+| Module | Sub-module / Task                        | Status  |
+| ------ | ---------------------------------------- | ------- |
+| DX     | Eloquent-first semantic API improvements | 🟢 Done |
+| DX     | `semanticWhere()` / `semanticOrderBy()`  | 🟢 Done |
+| DX     | Auto-vectorization via casting           | 🟢 Done |
+| DX     | PHP attribute-based config               | 🟢 Done |
+| DX     | CLI generators (`make:vector-model`)     | 🟢 Done |
+| DX     | Debug / playground tools                 | 🟢 Done |
+| DX     | Improved developer error messages        | 🟢 Done |
 
 ---
 
