@@ -91,4 +91,8 @@ Implement **`RagRetrieverContract`** or **`LLMDriver`**, bind your implementatio
 
 ---
 
-**Phase 9 (ingestion):** load documents with **`Vector::ingest()`** before or alongside RAG — see **[ingestion.md](./ingestion.md)**. See **[roadmap.md](./roadmap.md)** for Phase 10+ (hybrid search, DX 2.0).
+**Phase 9 (ingestion):** load documents with **`Vector::ingest()`** before or alongside RAG — see **[ingestion.md](./ingestion.md)**.
+
+**Phase 10 (retrieval quality):** tune hybrid keyword boost, reranking, and facets with **`Pinecone::advancedSearch()`** — see **[search.md](./search.md)**.
+
+See **[roadmap.md](./roadmap.md)** for Phase 11+ (DX 2.0).
