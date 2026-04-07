@@ -15,6 +15,9 @@ use Vectora\Pinecone\Core\Http\Json;
 /** OpenAI `/v1/chat/completions` (and compatible servers). */
 final class OpenAILLMDriver implements LLMDriver
 {
+    /** @var array<string, mixed>|null  Last `usage` object from chat/completions */
+    private ?array $lastUsage = null;
+
     public function __construct(
         private readonly Client $http,
         private readonly RequestFactoryInterface $requestFactory,
@@ -25,6 +28,14 @@ final class OpenAILLMDriver implements LLMDriver
         private readonly float $temperature = 0.2,
         private readonly ?int $maxTokens = null,
     ) {}
+
+    /**
+     * @return array<string, mixed>|null
+     */
+    public function lastUsage(): ?array
+    {
+        return $this->lastUsage;
+    }
 
     public function chat(array $messages): string
     {
@@ -57,6 +68,7 @@ final class OpenAILLMDriver implements LLMDriver
 
         /** @var array<string, mixed> $data */
         $data = Json::decodeObject($raw);
+        $this->lastUsage = isset($data['usage']) && is_array($data['usage']) ? $data['usage'] : null;
         $choices = $data['choices'] ?? [];
         if (! is_array($choices) || $choices === []) {
             throw new LlmException('OpenAI chat response missing choices.');

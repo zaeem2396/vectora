@@ -192,14 +192,16 @@ Status: **complete** (see **[dx.md](./dx.md)** Phase 11 section and **[eloquent.
 
 ## Phase 12 — Observability 2.0
 
-| Module        | Sub-module / Task          | Status     |
-| ------------- | -------------------------- | ---------- |
-| Observability | End-to-end query tracing   | 🔴 Pending |
-| Observability | Embedding latency tracking | 🔴 Pending |
-| Observability | Token usage tracking       | 🔴 Pending |
-| Observability | Cost estimation            | 🔴 Pending |
-| Observability | Debug dashboard (optional) | 🔴 Pending |
-| Observability | APM / logging integrations | 🔴 Pending |
+Status: **complete** (see **[observability.md](./observability.md)** Phase 12 section).
+
+| Module        | Sub-module / Task          | Status  |
+| ------------- | -------------------------- | ------- |
+| Observability | End-to-end trace id (`VectorOperationTrace`) | 🟢 Done |
+| Observability | Embedding latency + batch metrics (`EmbeddingCallFinished`) | 🟢 Done |
+| Observability | Token usage (OpenAI drivers via `lastUsage()`) | 🟢 Done |
+| Observability | Cost estimation (`ObservabilityCostEstimator`, configurable rates) | 🟢 Done |
+| Observability | CLI summary (`pinecone:observability`) | 🟢 Done |
+| Observability | APM / logging integrations (events for listeners) | 🟢 Done |
 
 ---
 
@@ -212,7 +214,7 @@ Status: **complete** (see **[dx.md](./dx.md)** Phase 11 section and **[eloquent.
 | Search        | Hybrid + reranking           | 🟢 Done (Phase 10) |
 | AI            | Full RAG pipeline            | 🟢 Done (Phase 8 baseline) |
 | Ingestion     | File + chunking pipeline     | 🟢 Done (Phase 9) |
-| Observability | Cost + tracing + metrics     | 🔴 Pending |
+| Observability | Cost + tracing + metrics     | 🟢 Done (Phase 12) |
 
 ---
 

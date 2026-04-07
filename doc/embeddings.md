@@ -87,6 +87,12 @@ When `embeddings.cache.enabled` is true, **`EmbeddingManager`** wraps the resolv
 
 ---
 
+## Observability 2.0 (Phase 12)
+
+When **`pinecone.observability_v2.enabled`** is true and **`embedding_events`** is on, **`EmbeddingManager`** wraps the stack (including cache) with **`ObservedEmbeddingDriver`**, which dispatches **`EmbeddingCallFinished`** after each `embed()` / `embedMany()` with duration, input size, optional OpenAI **`total_tokens`**, and a rough USD estimate from **`pinecone.observability_v2.costs`**. Call **`VectorOperationTrace::begin()`** at the start of a request or job so the event’s **`traceId`** matches **`PineconeHttpRequestFinished`**. See **[observability.md](./observability.md)** (Phase 12).
+
+---
+
 ## See also
 
 - [roadmap.md](./roadmap.md) — Phase 3 checklist  

@@ -17,6 +17,11 @@ final class CachingEmbeddingDriver implements EmbeddingDriver
         private readonly ?int $ttlSeconds,
     ) {}
 
+    public function innerDriver(): EmbeddingDriver
+    {
+        return $this->inner;
+    }
+
     public function embed(string $text): array
     {
         if ($text === '') {

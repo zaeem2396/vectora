@@ -16,6 +16,9 @@ use Vectora\Pinecone\Core\Http\Json;
  */
 final class OpenAIEmbeddingDriver extends AbstractEmbeddingDriver
 {
+    /** @var array<string, mixed>|null  Last OpenAI `usage` object from the embeddings API */
+    private ?array $lastUsage = null;
+
     public function __construct(
         private readonly Client $http,
         private readonly RequestFactoryInterface $requestFactory,
@@ -28,6 +31,16 @@ final class OpenAIEmbeddingDriver extends AbstractEmbeddingDriver
         if ($batchSize < 1) {
             throw new \InvalidArgumentException('batchSize must be at least 1.');
         }
+    }
+
+    /**
+     * Token usage from the last successful `/v1/embeddings` response (Phase 12 observability).
+     *
+     * @return array<string, mixed>|null
+     */
+    public function lastUsage(): ?array
+    {
+        return $this->lastUsage;
     }
 
     public function embed(string $text): array
@@ -94,6 +107,7 @@ final class OpenAIEmbeddingDriver extends AbstractEmbeddingDriver
 
         /** @var array<string, mixed> $data */
         $data = Json::decodeObject($body);
+        $this->lastUsage = isset($data['usage']) && is_array($data['usage']) ? $data['usage'] : null;
         if (! isset($data['data']) || ! is_array($data['data'])) {
             throw new EmbeddingException('OpenAI embeddings response missing data array.');
         }

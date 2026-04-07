@@ -29,6 +29,7 @@ final class EventDispatchingPineconeMetrics implements PineconeMetrics
             $durationSeconds,
             $statusCode,
             null,
+            VectorOperationTrace::current(),
         ));
     }
 
@@ -45,6 +46,7 @@ final class EventDispatchingPineconeMetrics implements PineconeMetrics
             $durationSeconds,
             null,
             $exceptionClass,
+            VectorOperationTrace::current(),
         ));
     }
 

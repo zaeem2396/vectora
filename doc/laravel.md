@@ -42,6 +42,10 @@ See **[search.md](./search.md)**.
 
 Embeddable models use **`SemanticEloquentBuilder`** (`semanticWhere` / `semanticOrderBy`). Artisan: **`php artisan make:vector-model YourModel`**, **`php artisan pinecone:semantic-debug YourModel "query"`** (requires **`pinecone.dx.semantic_debug`**). See **[dx.md](./dx.md)** and **[eloquent.md](./eloquent.md)**.
 
+## Observability 2.0 (Phase 12)
+
+Set **`VECTORA_OBSERVABILITY_V2=true`** (or `pinecone.observability_v2.enabled`) to wrap **`EmbeddingDriver`** / **`LLMDriver`** with observers that dispatch **`EmbeddingCallFinished`** / **`LlmCallFinished`** (duration, character or token metrics, optional cost estimates). Call **`VectorOperationTrace::begin()`** early in HTTP requests or jobs so **`traceId`** aligns with **`PineconeHttpRequestFinished`** when **`PINECONE_METRICS`** is on. Tune per-model USD rates under **`pinecone.observability_v2.costs`**. **`php artisan pinecone:observability`** prints flag summary. See **[observability.md](./observability.md)**.
+
 ## Multi-index configuration
 
 `config/pinecone.php` supports named connections under `indexes`, with `default` selecting which name `Pinecone::connection()` uses when no argument is passed.
@@ -89,6 +93,7 @@ Jobs honour `pinecone.queue.connection` and `pinecone.queue.queue`. Successful o
 | ------- | ------- |
 | `pinecone:sync` | Print `describe_index_stats` (connectivity / counts) |
 | `pinecone:flush` | `deleteAll` for a namespace (`--force` required in production) |
+| `pinecone:observability` | Phase 12: show `observability_v2` flags and cost table sizes |
 
 ## HTTP & logging
 
@@ -96,4 +101,4 @@ Jobs honour `pinecone.queue.connection` and `pinecone.queue.queue`. Successful o
 
 **Debug:** `PINECONE_DEBUG=true` adds truncated request/response body previews (`pinecone.debug.*`). **Query cache:** `PINECONE_QUERY_CACHE=true` wraps the vector store so `query()` hits Laravel cache (see **`[dx.md](./dx.md)`**). Config is validated on provider boot (timeouts, eloquent sync mode, query-cache TTL).
 
-**Metrics (Phase 6):** `PINECONE_METRICS=true` dispatches **`PineconeHttpRequestFinished`** after each logical Pinecone HTTP call (duration, status, correlation id). See **`[observability.md](./observability.md)`**.
+**Metrics (Phase 6):** `PINECONE_METRICS=true` dispatches **`PineconeHttpRequestFinished`** after each logical Pinecone HTTP call (duration, status, correlation id, optional **`traceId`** from **`VectorOperationTrace`**). **Phase 12:** `VECTORA_OBSERVABILITY_V2=true` adds embedding/LLM completion events and cost estimates; see **`[observability.md](./observability.md)`**.

@@ -104,5 +104,36 @@ final class PineconeConfigValidator
         if ($dx !== [] && ! is_array($dx)) {
             throw new \InvalidArgumentException('pinecone.dx must be an array.');
         }
+
+        $obs = $config['observability_v2'] ?? [];
+        if (! is_array($obs)) {
+            throw new \InvalidArgumentException('pinecone.observability_v2 must be an array.');
+        }
+        foreach (['enabled', 'embedding_events', 'llm_events'] as $flag) {
+            if (array_key_exists($flag, $obs) && ! is_bool($obs[$flag])) {
+                throw new \InvalidArgumentException('pinecone.observability_v2.'.$flag.' must be a boolean when set.');
+            }
+        }
+        $costs = $obs['costs'] ?? [];
+        if (! is_array($costs)) {
+            throw new \InvalidArgumentException('pinecone.observability_v2.costs must be an array.');
+        }
+        foreach (['embedding_usd_per_1m_tokens', 'chat_usd_per_1m_tokens'] as $tableKey) {
+            $raw = $costs[$tableKey] ?? [];
+            if ($raw === []) {
+                continue;
+            }
+            if (! is_array($raw)) {
+                throw new \InvalidArgumentException('pinecone.observability_v2.costs.'.$tableKey.' must be an array.');
+            }
+            foreach ($raw as $k => $v) {
+                if (! is_string($k) || $k === '') {
+                    throw new \InvalidArgumentException('pinecone.observability_v2.costs.'.$tableKey.' keys must be non-empty strings.');
+                }
+                if (! is_numeric($v)) {
+                    throw new \InvalidArgumentException('pinecone.observability_v2.costs.'.$tableKey.'['.$k.'] must be numeric.');
+                }
+            }
+        }
     }
 }

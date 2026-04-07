@@ -15,6 +15,7 @@ use Vectora\Pinecone\Ingestion\Http\GuzzleUrlReader;
 use Vectora\Pinecone\Ingestion\IngestionPipeline;
 use Vectora\Pinecone\Laravel\Commands\MakeVectorModelCommand;
 use Vectora\Pinecone\Laravel\Commands\PineconeFlushCommand;
+use Vectora\Pinecone\Laravel\Commands\PineconeObservabilityCommand;
 use Vectora\Pinecone\Laravel\Commands\PineconeSyncCommand;
 use Vectora\Pinecone\Laravel\Commands\SemanticDebugCommand;
 use Vectora\Pinecone\Laravel\Embeddings\EmbeddingDriverFactory;
@@ -23,6 +24,7 @@ use Vectora\Pinecone\Laravel\Embeddings\LLMDriverFactory;
 use Vectora\Pinecone\Laravel\Embeddings\LLMManager;
 use Vectora\Pinecone\Laravel\Ingestion\IngestionFactory;
 use Vectora\Pinecone\Laravel\Observability\EventDispatchingPineconeMetrics;
+use Vectora\Pinecone\Laravel\Observability\ObservabilityCostEstimator;
 use Vectora\Pinecone\Laravel\Rag\RagQueryFactory;
 use Vectora\Pinecone\Laravel\Support\PineconeConfigValidator;
 
@@ -38,6 +40,10 @@ class PineconeServiceProvider extends ServiceProvider
 
         $this->app->singleton(EventDispatchingPineconeMetrics::class, function ($app) {
             return new EventDispatchingPineconeMetrics($app->make('events'));
+        });
+
+        $this->app->singleton(ObservabilityCostEstimator::class, function ($app) {
+            return new ObservabilityCostEstimator($app);
         });
 
         $this->app->singleton('vectora.pinecone', function ($app) {
@@ -57,7 +63,12 @@ class PineconeServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(EmbeddingManager::class, function ($app) {
-            return new EmbeddingManager($app, $app->make(EmbeddingDriverFactory::class));
+            return new EmbeddingManager(
+                $app,
+                $app->make(EmbeddingDriverFactory::class),
+                $app->make('events'),
+                $app->make(ObservabilityCostEstimator::class),
+            );
         });
 
         $this->app->bind(EmbeddingDriver::class, function ($app) {
@@ -69,7 +80,12 @@ class PineconeServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(LLMManager::class, function ($app) {
-            return new LLMManager($app->make(LLMDriverFactory::class));
+            return new LLMManager(
+                $app->make(LLMDriverFactory::class),
+                $app,
+                $app->make('events'),
+                $app->make(ObservabilityCostEstimator::class),
+            );
         });
 
         $this->app->bind(LLMDriver::class, function ($app) {
@@ -115,6 +131,7 @@ class PineconeServiceProvider extends ServiceProvider
             PineconeSyncCommand::class,
             MakeVectorModelCommand::class,
             SemanticDebugCommand::class,
+            PineconeObservabilityCommand::class,
         ]);
     }
 }

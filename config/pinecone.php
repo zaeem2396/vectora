@@ -285,4 +285,34 @@ return [
     'dx' => [
         'semantic_debug' => filter_var(env('VECTORA_SEMANTIC_DEBUG', false), FILTER_VALIDATE_BOOL),
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Observability 2.0 (Phase 12)
+    |--------------------------------------------------------------------------
+    |
+    | Optional trace correlation, embedding/LLM completion events, and rough USD
+    | estimates from token usage. Off by default; enable with VECTORA_OBSERVABILITY_V2.
+    |
+    */
+    'observability_v2' => [
+        'enabled' => filter_var(env('VECTORA_OBSERVABILITY_V2', false), FILTER_VALIDATE_BOOL),
+        'embedding_events' => filter_var(env('VECTORA_OBSERVABILITY_V2_EMBEDDING_EVENTS', true), FILTER_VALIDATE_BOOL),
+        'llm_events' => filter_var(env('VECTORA_OBSERVABILITY_V2_LLM_EVENTS', true), FILTER_VALIDATE_BOOL),
+        'costs' => [
+            /*
+            | USD per 1M tokens (rough; override for your org’s pricing).
+            | Keys are model ids as in pinecone.embeddings.drivers.*.model / pinecone.llm.drivers.*.model.
+            */
+            'embedding_usd_per_1m_tokens' => [
+                'text-embedding-3-small' => (float) env('VECTORA_COST_EMBEDDING_3_SMALL_PER_1M', 0.02),
+                'text-embedding-3-large' => (float) env('VECTORA_COST_EMBEDDING_3_LARGE_PER_1M', 0.13),
+                'text-embedding-ada-002' => (float) env('VECTORA_COST_EMBEDDING_ADA002_PER_1M', 0.10),
+            ],
+            'chat_usd_per_1m_tokens' => [
+                'gpt-4o-mini' => (float) env('VECTORA_COST_CHAT_GPT4O_MINI_PER_1M', 0.15),
+                'gpt-4o' => (float) env('VECTORA_COST_CHAT_GPT4O_PER_1M', 2.50),
+            ],
+        ],
+    ],
 ];
