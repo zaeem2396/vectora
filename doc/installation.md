@@ -18,6 +18,8 @@ The package ships **`smalot/pdfparser`** for **PDF** ingestion. No extra Compose
 
 Optional **Phase 10** env vars: **`VECTORA_SEARCH_FETCH_TOP_K`**, **`VECTORA_SEARCH_KEYWORD_BOOST`** (see **[search.md](./search.md)**).
 
+Optional **Phase 11** env: **`VECTORA_SEMANTIC_DEBUG=true`** enables **`php artisan pinecone:semantic-debug`** (see **[dx.md](./dx.md)**).
+
 ---
 
 ## 2. Install via Composer
