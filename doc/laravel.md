@@ -32,6 +32,12 @@ Use **`Vector::ingest()`** for file/HTML/URL → chunk → embed → upsert via 
 
 See **[ingestion.md](./ingestion.md)** for chunking strategies, extractors, and events.
 
+## Advanced search (Phase 10)
+
+**`Pinecone::advancedSearch()`** returns **`AdvancedSearchBuilder`**: embeds `queryText()`, runs **`VectorStoreContract::query()`**, then optional keyword boost, custom **`RerankerContract`**, **`ScoreNormalizer`**, **`FacetAggregator`**, and **`paginate()`**. Configure defaults under **`pinecone.search`**.
+
+See **[search.md](./search.md)**.
+
 ## Multi-index configuration
 
 `config/pinecone.php` supports named connections under `indexes`, with `default` selecting which name `Pinecone::connection()` uses when no argument is passed.
