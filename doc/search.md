@@ -91,4 +91,5 @@ Compose with **`$and` / `$or`**, **`$in`**, **`$exists`** as in **[Pinecone filt
 - **[embeddings.md](./embeddings.md)** — embedding dimensions must match the index.
 - **[rag.md](./rag.md)** — RAG uses retrieval + LLM; advanced search focuses on retrieval quality.
 - **[eloquent.md](./eloquent.md)** — Phase 11 `semanticWhere()` / `semanticOrderBy()` on the Eloquent builder.
-- **[roadmap.md](./roadmap.md)** — Phase 12+.
+- **[roadmap.md](./roadmap.md)** — future phases beyond 12.
+- **[observability.md](./observability.md)** — Phase 12 trace and metrics for the same `query()` path.
