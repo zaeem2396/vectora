@@ -39,6 +39,7 @@ Optional **default namespace** (third constructor argument): when upsert/query/d
 - `Vectora\Pinecone\Contracts\IndexAdminContract` — index lifecycle.
 - `Vectora\Pinecone\Contracts\RagRetrieverContract` / **`LLMDriver`** — RAG retrieval and chat completion (Phase 8; see **[rag.md](./rag.md)**).
 - `Vectora\Pinecone\Contracts\TextChunkingStrategy` / **`TextExtractor`** — document splitting and file extraction (Phase 9; see **[ingestion.md](./ingestion.md)**).
+- **`RerankerContract`** — post-query reordering (Phase 10; see **[search.md](./search.md)**).
 
 ## Observability
 
