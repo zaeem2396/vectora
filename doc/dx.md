@@ -57,3 +57,7 @@ Use these in listeners or `VectorFailed` handlers to branch on failure type with
 ---
 
 ## Phase 11 — DX 2.0 (semantic Eloquent, attributes, casts, artisan)
+
+Phase 11 builds on **`HasEmbeddings`**: a **`SemanticEloquentBuilder`** (via `Model::query()` on embeddable models), **PHP 8 attributes** for embedding columns and optional index name, a **concatenation cast** for virtual embedding text, Artisan **`make:vector-model`** / **`pinecone:semantic-debug`**, **`pinecone.dx`** config, and **`SemanticSearchInvalidArgumentException`** for clearer invalid-argument failures.
+
+### Semantic query builder
