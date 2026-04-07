@@ -207,7 +207,7 @@ Status: **complete** (see **[search.md](./search.md)**).
 | ------------- | ---------------------------- | ---------- |
 | Multi-backend | Qdrant / Weaviate / pgvector | 🟢 Done (Phase 7) |
 | Abstraction   | Scout-style engine           | 🔴 Pending |
-| Search        | Hybrid + reranking           | 🔴 Pending |
+| Search        | Hybrid + reranking           | 🟢 Done (Phase 10) |
 | AI            | Full RAG pipeline            | 🟢 Done (Phase 8 baseline) |
 | Ingestion     | File + chunking pipeline     | 🟢 Done (Phase 9) |
 | Observability | Cost + tracing + metrics     | 🔴 Pending |
