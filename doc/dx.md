@@ -80,3 +80,9 @@ Calling **`semanticOrderBy`** after a matching **`semanticWhere`** uses **`reord
 
 **`ConcatEmbeddingTextCast`** implements **`Castable`** and **`CastsAttributes`**: use a virtual column in **`$casts`** (e.g.  `'embedding_text' => ConcatEmbeddingTextCast::class.':title,body'`) and point **`vectorEmbeddingFields()`** at **`embedding_text`** only.
 
+### Artisan
+
+| Command | Purpose |
+|--------|---------|
+| **`php artisan make:vector-model Post`** | Scaffold **`AbstractEmbeddableModel`** with **`vectorEmbeddingFields()`** stub. |
+| **`php artisan pinecone:semantic-debug "App\Models\Post" "your query"`** | Prints JSON match summary; requires **`pinecone.dx.semantic_debug`** / **`VECTORA_SEMANTIC_DEBUG=true`**. |
