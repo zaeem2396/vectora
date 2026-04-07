@@ -1,6 +1,6 @@
 {
     "name": "vectora/laravel-pinecone",
-    "description": "Community PHP/Laravel SDK for Pinecone REST APIs: embeddings, vector ops, Eloquent sync, and queue jobs.",
+    "description": "Community PHP/Laravel SDK for Pinecone REST APIs: embeddings, vector ops, Eloquent sync, queue jobs, and optional Phase 12 observability (traces, embedding/LLM events, cost estimates).",
     "type": "library",
     "license": "MIT",
     "authors": [
